@@ -1,0 +1,8 @@
+export(arrange.jm, best.layout, big.peaks.col, detect.ladder, find.ladder, get.scores, homo.panel, homogenize.to.parentals, jm.conv, ladder.info.attach, lapply_pb, letter.to.jm, num.to.lett, overview, overview2, pullup, read.abif, reals, score.easy, saturate, separate, storing.inds, threshs, transfft, transp)
+
+importFrom("grDevices", "col2rgb", "colorRampPalette", "rgb")
+  importFrom("graphics", "abline", "axis", "image", "layout", "legend",
+             "lines", "plot", "points", "rect", "text")
+  importFrom("stats", "cor", "fft", "lm", "median", "na.omit", "predict",
+             "rnorm", "sd")
+  importFrom("utils", "combn", "setTxtProgressBar", "txtProgressBar")
