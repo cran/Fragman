@@ -82,7 +82,7 @@ score.easy <-
       list.data <- lapply(list.ladders, find.ladder, ladder=ladder, ci.upp=ci.upp, ci.low=ci.low, draw=F, dev=dev, warn=warn, method=method,init.thresh=ladd.init.thresh)
     }
     # this models uses indexes and predicts base airs
-    list.models <- lapply(list.data, function(da){y <- da[[3]]; x <- da[[1]];mod <- lm(y~ x, data=da); return(mod)})
+    list.models <- lapply(list.data, function(da){y <- da[[3]]; x <- da[[1]];mod <- lm(y~ I(x) + I(x^2) + I(x^3) + I(x^4) + I(x^5), data=da); return(mod)})
     # this models uses pairs and predicts indexes
     list.models.inv <- lapply(list.data, function(da){x <- da[[3]]; y <- da[[1]];mod <- lm(y~ x, data=da); return(mod)})
     

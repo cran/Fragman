@@ -4,14 +4,14 @@
 \author{
 Giovanny Covarrubias-Pazaran, Luis Diaz-Garcia, Brandon Schlautman, Walter Salazar, Juan Zalapa.
 }
-\title{Fragment analysis and automatic scoring of biparental populations}
-\description{Fragma is a package designed for Fragment analysis and automatic scoring of biparental populations such as F1, F2, BC types based on ABi machine plattforms. The program is designed to read files with FSA extension (which stands for FASTA-type file and contains lectures for DNA fragments) and extract the DNA intensities from the channels/colors where they are located. The core of the package relays in 4 functions; 1) \code{\link{storing.inds}} is the function in charge of reading the FSA files and storing them with a list structure, 2) \code{\link{ladder.info.attach}} uses the information read from the FSA files and a vector containing the ladder information (DNA size of the fragments) and matches the peaks from the channel where the ladder was run with the DNA sizes for all samples. Then loads such information in the R environment for the use of posterior functions, 3) \code{\link{overview}} & \code{\link{overview2}} create friendly plots for any number of individuals specified  and can be used to design panels (overview2) for posterior automatic scoring, or make manual scoring (overview) of individuals such as parents of biparental populations or diversity panels, 4) The \code{\link{score.easy}} function score the alleles by finding all regions where the first derivative of the intensity vector iz zero and reduces the search of peaks using a panel (if provided) otherwise returns all peaks present. This function can be automatized if several markers are located in the same channel by creating lists of panels taking advantage of R capabilities and data structures (see vignettes). 
+\title{Fragment analysis and automatic scoring}
+\description{Fragman is a package designed for Fragment analysis and automatic scoring of biparental populations (such as F1, F2, BC types) and populations for diversity studies. The program is designed to read files with FSA extension (which stands for FASTA-type file and contains lectures for DNA fragments) and extract the DNA intensities from the channels/colors where they are located, based on ABi machine plattforms to perform sizing and allele scoring. The core of the package relays in 4 functions; 1) \code{\link{storing.inds}} is the function in charge of reading the FSA files and storing them with a list structure, 2) \code{\link{ladder.info.attach}} uses the information read from the FSA files and a vector containing the ladder information (DNA size of the fragments) and matches the peaks from the channel where the ladder was run with the DNA sizes for all samples. Then loads such information in the R environment for the use of posterior functions, 3) \code{\link{overview}} & \code{\link{overview2}} create friendly plots for any number of individuals specified  and can be used to design panels (overview2) for posterior automatic scoring, or make manual scoring (overview) of individuals such as parents of biparental populations or diversity panels, 4) The \code{\link{score.easy}} function score the alleles by finding all regions where the first derivative of the intensity vector iz zero and reduces the search of peaks using a panel (if provided) otherwise returns all peaks present. This function can be automatized if several markers are located in the same channel by creating lists of panels taking advantage of R capabilities and data structures (see vignettes). 
 
-If a biparental population is being analyzed, once the calls have been obtained we can extract a data frame with the \code{\link{get.scores}} function and we can transform those calls to the joinmap format using the \code{\link{jm.conv}} function.
+Once the calls have been obtained we can extract a data frame with the \code{\link{get.scores}} function. In addition if a mapping population is being analyzed we can transform those calls to the joinmap format using the \code{\link{jm.conv}} function.
 
 When automatic scoring is not desired the function \code{\link{overview}} can be used for getting an interactive session and click over the peaks (using the \code{\link{locator}} function) in order to get the allele sizes.
 	
-Vignettes illustrating some of the features of this package can be found at \url{http://www.wisc.edu}.
+Vignettes illustrating some of the features of this package can be found at `http://cggl.horticulture.wisc.edu/home-page/`.
 
 We have spent valuable time developing this package, please cite it in your publication:
 
@@ -19,7 +19,7 @@ Covarrubias-Pazaran G, Diaz-Garcia L, Schlautman B, Salazar W, Zalapa J. Fragman
 }
 
 \references{
-Covarrubias-Pazaran G, Diaz-Garcia L, Schlautman B, Salazar W, Zalapa J. Fragma: An R package for fragment analysis. http://cggl.horticulture.wisc.edu/home-page/. 2015.
+Covarrubias-Pazaran G, Diaz-Garcia L, Schlautman B, Salazar W, Zalapa J. (2015) Fragma: An R package for fragment analysis. R package version 1.0. URL https://cran.r-project.org/web/packages/Fragman/.
 
 Robert J. Henry. 2013. Molecular Markers in Plants. Wiley-Blackwell. ISBN 978-0-470-95951-0.
 
@@ -27,7 +27,7 @@ Ben Hui Liu. 1998. Statistical Genomics. CRC Press LLC. ISBN 0-8493-3166-8.
 }
 \keyword{ package }
 \seealso{
-http://www.wisc.edu
+http://cggl.horticulture.wisc.edu/home-page/
 }
 \examples{
 #####################

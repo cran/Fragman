@@ -1,6 +1,6 @@
 \name{lapply_pb}
 \alias{lapply_pb}
-\title{complementary tools for Fragma}
+\title{complementary tools for Fragman}
 \description{
 This function is a wrapper of lapply function that allows the drawing of a progress bar to assess the speed of the process.
 }

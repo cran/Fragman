@@ -1,12 +1,12 @@
 citHeader("To cite the Fragma package in publications use:")
 
 citEntry(entry="Article",
-	title="Fragma: An R package for fragment analysis",
+	title="Fragman: An R package for fragment analysis",
 	author=as.person("Covarrubias-Pazaran G, Diaz-Garcia L, Schlautman B, Salazar W, Zalapa J"),
-	journal="BMC Genetics",
+	journal="https://cran.r-project.org/web/packages/Fragman/",
 	year=2015,
-	volume=4,
-	pages="250-255",
-textVersion=paste("Covarrubias-Pazaran G, Diaz-Garcia L, Schlautman B, Salazar W, Zalapa J. 2015. Fragma: An R package for fragment analysis.",
-" BMC Genetics 4:250-255.")
+	volume="R package version 1.0",
+	pages="",
+textVersion=paste("Covarrubias-Pazaran G, Diaz-Garcia L, Schlautman B, Salazar W, Zalapa J. (2015) Fragma: An R package for fragment analysis. R package version 1.0.",
+" URL https://cran.r-project.org/web/packages/Fragman/.")
 )
