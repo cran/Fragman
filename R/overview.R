@@ -1,5 +1,5 @@
 overview <-
-function (my.inds, cols = 1, n.inds = c(1:length(my.inds)), xlimi=c(min(ladder),max(ladder)), ladder, channel.ladder=dim(my.inds[[1]])[2], ploidy=2, ci.upp=1.96, ci.low=1.96, dev=50, method="cor", init.thresh=200, ladd.init.thresh=200, warn=TRUE, env = parent.frame()) 
+function (my.inds, cols = 1, n.inds = c(1:length(my.inds)), xlimi=c(min(ladder),max(ladder)), ladder, channel.ladder=dim(my.inds[[1]])[2], ploidy=2, ci.upp=1.96, ci.low=1.96, dev=50, method="iter", init.thresh=200, ladd.init.thresh=200, warn=TRUE, env = parent.frame()) 
 {
   if(dim(my.inds[[1]])[2] < channel.ladder){
     print(paste("ERROR MY FRIEND!! you have indicated an argument channel.ladder=5, but your data contains less channels/colors"))

@@ -9,8 +9,9 @@ Please! if using the confidence interval method ("ci"), which is NOT the default
 }
 \usage{
 ladder.info.attach(stored, ladder, channel.ladder=NULL, 
-                  ci.upp=1.96, ci.low=1.96, dev=50, warn= FALSE, method="red", 
-                  ladd.init.thresh=200, env = parent.frame(), prog=TRUE, draw=TRUE)
+                  ci.upp=1.96, ci.low=1.96, dev=50, warn= FALSE, method="iter", 
+                  ladd.init.thresh=400, env = parent.frame(), prog=TRUE, 
+                  draw=TRUE, attempt=10)
 }
 
 \arguments{
@@ -37,6 +38,9 @@ ladder.info.attach(stored, ladder, channel.ladder=NULL,
 \item{prog}{ A TRUE/FALSE value indicating if a progress bar should be drawn while processing the samples in order to assess the time it takes to find the ladder. The dafault value is TRUE but usually this makes the process slower. Please feel free to set it equal FALSE if the number of samples is quite large and speed is a concern.}
 
 \item{draw}{ A TRUE/FALSE value indicating if a plot showing the peaks matched with your ladder should be drawn. The dafault value is FALSE to avoid extra delay. Please feel free to set it equal TRUE if you prefer to assess the sizing process.}
+
+\item{attempt}{A scalar value indicating how many attempts should be made to find the real ladder peaks. By default is 7 attempts, which means that will try to build the model assuming that the first peak found in the ladder is the corresponding first peak of the expected ladder, then moves to the 2nd peak until the 7th and the seven models are compared picking the most likely model based on the R2 value for each of the models.}
+
 }
 \details{
 The peaks are detected by default using a correlation method bu the user can use confidence intervals if desired.
@@ -65,6 +69,6 @@ Ben Hui Liu. 1998. Statistical Genomics. CRC Press LLC. ISBN 0-8493-3166-8.
 \examples{
 data(my.plants)
 my.plants <- my.plants[1:2]
-my.ladder <- c(120, 125, 129, 150, 175, 200, 225, 250, 275, 300, 325, 350, 375)
+my.ladder <- c(50, 75, 100, 125, 129, 150, 175, 200, 225, 250, 275, 300, 325, 350, 375)
 ladder.info.attach(stored=my.plants, ladder=my.ladder)
 }

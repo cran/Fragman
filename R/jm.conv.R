@@ -9,7 +9,7 @@ jm.conv <- function(a){
   for(i in 1:length(v1)){
     s1 <- v1[i]
     s2 <- v2[i]
-    x <- num.to.lett(a3[,s1:s2])
+    x <- num.to.lett(as.matrix(a3[,s1:s2]))
     alls[[i]] <- apply(x,2, letter.to.jm)
   }
   res <- data.frame(matrix(unlist(alls), ncol=length(alls)))

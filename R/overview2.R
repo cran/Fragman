@@ -1,5 +1,5 @@
 overview2 <- function (my.inds, cols = 1, n.inds = NULL, xlim = NULL, ylim = NULL, ladder, channel.ladder = NULL, ploidy = 2, ci.upp = 1.96, 
-                       ci.low = 1.96, dev = 50, method="cor", init.thresh=200, ladd.init.thresh=200, lwd=.1, warn=TRUE, min.panel=100, env = parent.frame()) 
+                       ci.low = 1.96, dev = 50, method="iter", init.thresh=200, ladd.init.thresh=200, lwd=.25, warn=TRUE, min.panel=100, env = parent.frame()) 
 {
   
   
@@ -133,7 +133,7 @@ overview2 <- function (my.inds, cols = 1, n.inds = NULL, xlim = NULL, ylim = NUL
   nn <- n.inds
   plot(new.whole.data[[1]]$xx[-c(1:common[[1]])], y = new.whole.data[[1]]$yy[-c(1:common[[1]])], 
        type = "l", xlim = c(xlim[1], xlim[2]), 
-       ylim=c(ylim[1],ylim[2]), yaxt = "n", col = cfp[cols], xlab = "Size in base pairs", 
+       ylim=c(ylim[1],ylim[2]), yaxt = "n", col = transp(cfp[cols],0.6), xlab = "Size in base pairs", 
        ylab = "DNA intensity in RFU", xaxt = "n", 
        lwd = lwd)
   axis(1, at = seq(xlim[1], xlim[2], by = 2), labels = seq(xlim[1], 
@@ -156,7 +156,7 @@ overview2 <- function (my.inds, cols = 1, n.inds = NULL, xlim = NULL, ylim = NUL
       b <- sum(unlist(heii)[1:i])
       yy <- new.whole.data[[i]]$yy
       lines(new.whole.data[[i]]$xx[-c(1:common[[i]])], 
-            y = yy[-c(1:common[[i]])], type = "l", col = cfp[cols], 
+            y = yy[-c(1:common[[i]])], type = "l", col = transp(cfp[cols],0.6), 
             lwd = lwd)
       #legend(x = xlim[1], y = b, legend = paste("Plant", 
       #                                          nn[i]), bty = "n")
@@ -171,5 +171,7 @@ overview2 <- function (my.inds, cols = 1, n.inds = NULL, xlim = NULL, ylim = NUL
   points(x=panel.sugg, y=heis.sugg, cex=0.9, col="black")
   
   close(pb) # close the progress bar
+  cat("\n THE PEAKS RETURNED ARE SUGGESTIONS. \n   My suggestion: \n a) Use the locator function, i.e. ''my.panel <- locator(type='p', pch=20, col='red')$x'' \n b) Click over the peaks you want to include in your panel \n c) Press the 'esc' key when done selecting peaks \n d) Make sure to provide the panel vector in the score.easy() function \n \n")
+  
   return(panel.sugg)
 }

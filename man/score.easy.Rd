@@ -12,8 +12,8 @@ score.easy(my.inds, cols = 1, n.inds = NULL, panel=NULL,
           thresh=NULL, shift=0.8, ladder, channel.ladder=NULL, 
           ploidy=2, ci.upp=1.96, ci.low=1.96, dev=50, left.cond=c(0.6,3), 
           right.cond=0.35, warn=FALSE, window=0.5, init.thresh=200, 
-          ladd.init.thresh=200, method="cor", env = parent.frame(), 
-          plotting=TRUE, electro=TRUE)
+          ladd.init.thresh=200, method="iter", env = parent.frame(), 
+          plotting=TRUE, electro=TRUE, pref=3)
 }
 
 \arguments{
@@ -60,6 +60,8 @@ score.easy(my.inds, cols = 1, n.inds = NULL, panel=NULL,
 \item{plotting}{ a TRUE/FALSE value indicating if the plots should be drawn or not. The default value is TRUE.}
 
 \item{electro}{A TRUE/FALSE value indicating if the electrogram/gel should be drawn or not. The default value is TRUE.}
+
+\item{pref}{A scalar value indicating how many plots should be drawn in the output plotting. The dafault is 3.}
 }
 \details{
  Remember!! once you have found the best parameters for the arguments to match your ladder using the \code{\link{detect.ladder}} function, please pass those values to this function since it will use the same function internally and your dna sizes will depend on that, please make sure the 'dev' argument is passed to the new functions since could be very specific for each ladder.
@@ -87,7 +89,7 @@ Ben Hui Liu. 1998. Statistical Genomics. CRC Press LLC. ISBN 0-8493-3166-8.
 \examples{
 data(my.plants)
 my.plants <- my.plants[1]
-my.ladder <- c(120, 125, 129, 150, 175, 200, 225, 250, 275, 300, 325, 350, 375)
+my.ladder <- c(50, 75, 100, 125, 129, 150, 175, 200, 225, 250, 275, 300, 325, 350, 375)
 my.panel <- c(190:230)
 # make sure to have sufficient plot area or will get an error message
 score.easy (my.inds=my.plants, cols = 1, panel=my.panel, ladder=my.ladder)

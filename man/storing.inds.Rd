@@ -7,7 +7,8 @@ This function reads the FSA files using a function named 'read.abif' from anothe
 }
 \usage{
 storing.inds(folder, channels=NULL, fourier=TRUE, 
-            saturated=TRUE, lets.pullup=TRUE, plotting=FALSE)
+            saturated=TRUE, lets.pullup=TRUE, 
+            plotting=FALSE, rawPlot=FALSE)
 }
 
 \arguments{
@@ -22,6 +23,9 @@ storing.inds(folder, channels=NULL, fourier=TRUE,
 \item{lets.pullup}{A FALSE/TRUE value indicating if data should be treated for noise from channel to channel known as pull up or pull down peaks since wavelengths where the dyes are read usually overlap (blue->green->yellow->red->orange. The dafault is TRUE}
 
 \item{plotting}{A FALSE/TRUE value indicating if results after data cleaning steps should be plotted to asses graphically how data was handled. The dafault is FALSE}
+
+\item{rawPlot}{A FALSE/TRUE value indicating if a plot drawing all vectors read should be plotted. The dafault is FALSE since this consumes a lot of memory.}
+
 }
 \details{
 No major details.

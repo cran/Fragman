@@ -10,7 +10,7 @@ Please! if using the confidence interval method ("ci"), which is not the default
 \usage{
 find.ladder(x, ladder, ci.upp=1.96, ci.low=1.96, 
             draw=TRUE, dev=50, warn=TRUE, init.thresh=250, 
-            sep.index=8, method="red", avoid=1500, who="sample")
+            sep.index=8, method="iter", avoid=1000, who="sample", attempt=10)
 }
 
 \arguments{
@@ -35,6 +35,8 @@ find.ladder(x, ladder, ci.upp=1.96, ci.low=1.96,
 \item{method}{An argument indicating one of the 2 methods available; "cor" makes all possible combination of peaks and searches exhaustive correlations to find the right peaks corresponsding to the expected DNA weights, or "ci" constructing confidence intervals to look for peaks meeting the conditions specified in the previous arguments}
 
 \item{who}{A name to indicate which sample is being analyzed}
+
+\item{attempt}{A scalar value indicating how many attempts should be made to find the real ladder peaks. By default is 7 attempts, which means that will try to build the model assuming that the first peak found in the ladder is the corresponding first peak of the expected ladder, then moves to the 2nd peak until the 7th and the seven models are compared picking the most likely model based on the R2 value for each of the models.}
 
 \item{avoid}{A scalar value indicating how many indexes should be avoided when the method of correlation fails to find peaks and a random sample will be drawn from the existing peaks. The default is 1500 indexes which will samples peaks avoiding the first 1500 indexes which is usually related to noisy area in some ladders.}
 }
@@ -68,6 +70,6 @@ Ben Hui Liu. 1998. Statistical Genomics. CRC Press LLC. ISBN 0-8493-3166-8.
 
 \examples{
 data(my.plants)
-my.ladder <- c(120, 125, 129, 150, 175, 200, 225, 250, 275, 300, 325, 350, 375)
+my.ladder <- c(50, 75, 100, 125, 129, 150, 175, 200, 225, 250, 275, 300, 325, 350, 375)
 find.ladder(my.plants[[1]][,4], ladder=my.ladder)
 }

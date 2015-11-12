@@ -28,7 +28,8 @@ pullup <- function(mati, plotting=FALSE, channel=4){
     mati[decrease,rest] <- mati[decrease,rest] - (mati[decrease,wiii]*.3)
   }
   
-  all.inds.mats2 <- apply(mati, 2, function(x){x[which(x < 0)] <- 0; return(x)})
+  #all.inds.mats2 <- apply(mati, 2, function(x){x[which(x < 0)] <- 0; return(x)}) 
+  all.inds.mats2 <- apply(mati, 2, function(x){x[which(x < 0)] <- x[which(x < 0)]; return(x)}) # THIS PART SEEMS TO BE IMPORTANT FOR DONT GETTING DOUBLE LINES
   #all.inds.mats2  <- data.frame(all.inds.mats2)
   if(plotting == TRUE){
     layout(matrix(1:2,2,1))

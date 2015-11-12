@@ -10,7 +10,7 @@ Please! once you have found the best parameters for the arguments to match your 
 \usage{
 overview(my.inds, cols = 1, n.inds = c(1:length(my.inds)), 
         xlimi=c(min(ladder),max(ladder)), ladder, channel.ladder=dim(my.inds[[1]])[2], 
-        ploidy=2, ci.upp=1.96, ci.low=1.96, dev=50, method="cor", 
+        ploidy=2, ci.upp=1.96, ci.low=1.96, dev=50, method="iter", 
         init.thresh=200, ladd.init.thresh=200, warn=TRUE, env = parent.frame())
 }
 
@@ -65,7 +65,7 @@ Ben Hui Liu. 1998. Statistical Genomics. CRC Press LLC. ISBN 0-8493-3166-8.
 \examples{
 data(my.plants)
 my.plants <- my.plants[1]
-my.ladder <- c(120, 125, 129, 150, 175, 200, 225, 250, 275, 300, 325, 350, 375)
+my.ladder <- c(50, 75, 100, 125, 129, 150, 175, 200, 225, 250, 275, 300, 325, 350, 375)
 overview(my.inds=my.plants, cols = 1, n.inds = c(1), ladder=my.ladder)
 # now use:
 # locator(type="p", pch=20, col="red")$x

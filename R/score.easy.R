@@ -1,13 +1,13 @@
 score.easy <-
-  function (my.inds, cols = 1, n.inds = NULL, panel=NULL, thresh=NULL, shift=0.8, ladder, channel.ladder=NULL, ploidy=2, ci.upp=1.96, ci.low=1.96, dev=50, left.cond=c(0.6,3), right.cond=0.35, warn=FALSE, window=0.5, init.thresh=200, ladd.init.thresh=200, method="cor", env = parent.frame(), plotting=TRUE, electro=TRUE) 
+  function (my.inds, cols = 1, n.inds = NULL, panel=NULL, thresh=NULL, shift=0.8, ladder, channel.ladder=NULL, ploidy=2, ci.upp=1.96, ci.low=1.96, dev=50, left.cond=c(0.6,3), right.cond=0.35, warn=FALSE, window=0.5, init.thresh=200, ladd.init.thresh=200, method="iter", env = parent.frame(), plotting=TRUE, electro=TRUE, pref=3) 
   {
     
     if(length(n.inds) > length(my.inds)){
       print(paste("Hey! you are trying to examine more individuals than the ones you actually read? You selected in 'n.inds' argument", length(n.inds), "individuals but you only provided", length(my.inds), " individuals. Please select a number of individuals smaller or same size than the ones contained in 'my.inds' argument"))
       stop
     }else{
-      print(paste("You have used a shift of", shift, "base pairs. All peaks at that distance from the tallest peak will be ignored and be considered noise"))
-      print(paste("In addition the window used is", window, ". Which means that all peaks closer by that distance to panel peaks will be accounted as peaks"))
+      cat(paste("\n1) You have used a shift of", shift, "base pairs. All peaks at that distance from the tallest peak will be ignored and be considered noise. \n2) In addition the window used is", window, ". Which means that all peaks closer by that distance to panel peaks will be accounted as peaks. \n3) Remember using the get.scores() function to extract the results from this output. \n\n"))
+      #print(paste("In addition the window used is", window, ". Which means that all peaks closer by that distance to panel peaks will be accounted as peaks"))
     }
     if(method == "ci"){
       print(paste("Please make sure you have used the same 'dev' value you found convenient for your ladder detection or probably your call will not match"))
@@ -152,21 +152,26 @@ score.easy <-
     
     if(plotting == TRUE){
       #### PLOTTING PART ###
-      nom <- length(n.inds)/28
-      if(nom <= 4){ # define the layout for your plants
-        layout(matrix(1:4, 4, 1))
-      }else{
-        disi <- best.layout(round(nom))
-        layout(matrix(1:((disi)[1]*disi[2]), disi[1], disi[2]))}
+      layout(matrix(1:pref,pref,1))
+      #nom <- length(n.inds)/28
+      #if(nom <= 4){ # define the layout for your plants
+      #  layout(matrix(1:4, 4, 1))
+      #}else{
+      #  disi <- best.layout(round(nom))
+      #  layout(matrix(1:((disi)[1]*disi[2]), disi[1], disi[2]))}
       ### start
       if(length(panel) > 0){
-        xm <- round(min(panel)-10, digits=0)
-        xl <- round(max(panel)+10, digits=0)
+        xm <- round(min(panel, na.rm = TRUE)-10, digits=0)
+        xl <- round(max(panel, na.rm = TRUE)+10, digits=0)
       }else{xm <- 0; xl <- max(ladder)}
       for(g in 1:length(n.inds)){
         hh4 <- n.inds[g]
         
-        mylim <- max(new.whole.data[[g]]$yy[which(new.whole.data[[g]]$xx > xm & new.whole.data[[g]]$xx < xl)]) +1000
+        if(length(which(new.whole.data[[g]]$xx > xm & new.whole.data[[g]]$xx < xl)) > 0){
+        mylim <- max(new.whole.data[[g]]$yy[which(new.whole.data[[g]]$xx > xm & new.whole.data[[g]]$xx < xl)], na.rm = TRUE) +100
+        }else{mylim=1000}
+        
+        if(is.infinite(mylim)){mylim=1000}
         plot( new.whole.data[[g]]$xx, new.whole.data[[g]]$yy, type="l", col=cfp[cols], xaxt="n",
               xlim=c(xm,xl),  ylim=c(-200,mylim), ylab="Intensity", main=paste(ncfp[cols], "plant", hh4), 
               xlab=names(list.models)[hh4], lwd=2, las=2)

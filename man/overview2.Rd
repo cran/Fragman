@@ -10,8 +10,8 @@ Please! once you have found the best parameters for the arguments to match your 
 \usage{
 overview2(my.inds, cols = 1, n.inds = NULL, xlim = NULL, 
         ylim = NULL, ladder, channel.ladder = NULL, ploidy = 2, 
-        ci.upp = 1.96, ci.low = 1.96, dev = 50, method="cor", 
-        init.thresh=200, ladd.init.thresh=200, lwd=.1, warn=TRUE, 
+        ci.upp = 1.96, ci.low = 1.96, dev = 50, method="iter", 
+        init.thresh=200, ladd.init.thresh=200, lwd=.25, warn=TRUE, 
         min.panel=100, env = parent.frame()) 
 
 }
@@ -78,7 +78,7 @@ Ben Hui Liu. 1998. Statistical Genomics. CRC Press LLC. ISBN 0-8493-3166-8.
 \examples{
 data(my.plants)
 my.plants <- my.plants[1]
-my.ladder <- c(120, 125, 129, 150, 175, 200, 225, 250, 275, 300, 325, 350, 375)
+my.ladder <- c(50, 75, 100, 125, 129, 150, 175, 200, 225, 250, 275, 300, 325, 350, 375)
 overview2(my.inds=my.plants, cols = 1, ladder=my.ladder, lwd=1)
 # now use:
 # my.panel <- locator(type="p", pch=20, col="red")$x
