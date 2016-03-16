@@ -39,7 +39,7 @@ http://cggl.horticulture.wisc.edu/home-page/
 ### you would use:
 # my.plants <- storing.inds(folder)
 ### where folder is the path where your samples are, i.e. "~/Documents"
-### here we just load our example data
+### here we just load our example data and use the first 2 plants
 ?my.plants
 data(my.plants)
 my.plants <- my.plants[1:2]
@@ -54,31 +54,54 @@ my.ladder <- c(50, 75, 100, 125, 129, 150, 175, 200, 225, 250, 275, 300, 325, 35
 ### to the R environment using the function:
 ladder.info.attach(stored=my.plants, ladder=my.ladder)
 
+### OPTIONAL: If the function detects some bad samples you can correct them manually using
+### the ladder.corrector() function, i.e.:
+### ladder.corrector(stored=my.plants, 
+#to.correct="FHN152-CPN01_01A_GH1x35_152-148-209_717-704-793_367-382-381.fsa", 
+#ladder=my.ladder)
+
 #######################
 ## CREATE A PANEL   ###
 #######################
 
-### you may use overview2 or overview to create you customized panel using:
-### here we select the channel 3 (yellow) by setting 'cols=3' 
-### and providing the samples and ladder
+### In fragment analysis you usually design a panel where you indicate
+### which peaks are real. You may use the overview2 function which plots all the
+### plants in the channel you want in the base pair range you want
+
+### Just to show the uptput. Here we select the channel 3 (yellow) by setting 'cols=3' 
+### and providing the samples (my.plants) and ladder (my.ladder)
 overview2(my.inds=my.plants, cols = 3, ladder=my.ladder, init.thresh=5000)
-### you could also click on the peaks you think are real 
-### by using the 'locator' function and press 'Esc' when you're done:
+
+### You could also click on the peaks you think are real if the ones
+### selected by the program are not correct. This can be done by using the 
+### 'locator' function and press 'Esc' when you're done, i.e.:
 # my.panel <- locator(type="p", pch=20, col="red")$x
-### so you can click over the peaks and get the sizes
+
+### That way you can click over the peaks and get the sizes
 ### in base pairs stored in a vector named my.panel
-### Instead of doing that I will use the suggested peaks by 
-### the program using overview2, which provides a vector with 
+### Just for demonstration purposes I will use the suggested peaks by 
+### the program using overview2, which will return a vector with 
 ### expected DNA sizes to be used in the next step for scoring
 ### we'll do it in the 160-190 bp region
 my.panel <- overview2(my.inds=my.plants, cols = 3, 
- ladder=my.ladder, init.thresh=7000, xlim=c(160,190)); my.panel
+                    ladder=my.ladder, init.thresh=7000, 
+                    xlim=c(160,190)); my.panel
 
 ##########################
 ## SCORE YOUR SAMPLES  ###
 ##########################
-a <- score.easy (my.inds=my.plants, cols = 3, panel=my.panel, ladder=my.ladder, electro=FALSE)
-### extract your peaks in a data.frame
+
+### When a panel is created is time to score the samples by providing the initial
+### data we read, the ladder vector, the panel vector, and our specifications
+### of channel to score (other arguments are available)
+
+### Here we will score our samples for channel 3 with our panel created previously
+a <- score.easy (my.inds=my.plants, cols = 3, panel=my.panel,
+                ladder=my.ladder, electro=FALSE)
+
+### Check the plots and make sure they were scored correctly. In case some samples 
+### are wrong you might want to use the locator function again and figure out 
+### the size of your peaks. To extract your peaks in a data.frame do the following:
 final.results <- get.scores(a)
 final.results 
 }

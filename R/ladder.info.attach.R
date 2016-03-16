@@ -14,6 +14,10 @@ ladder.info.attach <- function(stored, ladder, channel.ladder=NULL, ci.upp=1.96,
   #  attributes(list.ladders[[f]])$name <- to.add[f]
   #}
   ##
+  for(t in 1:length(list.ladders)){
+    attributes(list.ladders[[t]]) <- list(mycomm=names(list.ladders)[t])
+  }
+  
   if(prog==TRUE){
     res <- lapply_pb(list.ladders, find.ladder, ladder=ladder, ci.upp=ci.upp, ci.low=ci.low, dev=dev, warn=warn, method=method,init.thresh=ladd.init.thresh, draw=draw, attempt=attempt)
   }
@@ -24,9 +28,9 @@ ladder.info.attach <- function(stored, ladder, channel.ladder=NULL, ci.upp=1.96,
   
   correlations <- unlist(lapply(res, function(x){x$corr}))
   if(length(which(correlations < .92)) >0){
-    cat("\nPlease look at these samples, we did not find a good ladder pattern:\n\n")
-    print(all.names[which(correlations < .92)])
-    cat("\nTHE POSSIBLE REASONS FOR NOT FINDING YOUR LADDER IN SOME SAMPLES ARE: \n\na) The first peaks of your ladder are in a very noisy area \n     Solution-- try discarding some initial values of your ladder, start one by one \nb) The value of ladd.init.thresh may be too low making noisy peaks too abundant \n     Solution-- make sure your initial value 'init.thresh' is not below 100 RFUs \nc) MOST IMPORTANT! you can correct manually the bad samples using the 'correct.ladder()' function providing the output of this function\n\n")
+    cat(paste("\nWe did not find a good ladder in",length(which(correlations < .92)),"sample(s). If you wish to correct it you can try one of the following:\n"))
+    cat("\nTHE POSSIBLE REASONS FOR NOT FINDING YOUR LADDER IN SOME SAMPLES ARE: \n\na) The first peaks of your ladder are in a very noisy area \n     Solution-- try discarding some initial values of your ladder, start one by one \nb) The value of ladd.init.thresh might be too low, making noisy peaks too abundant \n     Solution-- make sure your initial value 'init.thresh' is not below 100 RFUs \nc) MOST IMPORTANT! you can correct manually the bad samples using the 'ladder.corrector()' function providing the names of the bad samples, your ladder, and the information from the 'storing.inds' function, type ?ladder.corrector\nd) You can continue your analysis without worrying for those samples \n\nNames of the bad sample(s):\n")
+    #print(all.names[which(correlations < .92)])
    # if(length(which(correlations < .92)) > (length(correlations)*.05)){
     #  ww <- which(correlations < .92)[1]
     #  prov <- stored[[ww]][,dim(stored[[ww]])[2]]

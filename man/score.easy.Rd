@@ -25,7 +25,7 @@ score.easy(my.inds, cols = 1, n.inds = NULL, panel=NULL,
 
 \item{panel}{A vector containing the base pair interval where the peaks should be searched for}
 
-\item{thresh}{These are the values(number of standard errors) to be used to calculate the heights confidendence interval for ssr calling and be able to customize the thresholds when using the \code{\link{threshs}} function}
+\item{thresh}{Only if method="ci". These are the values(number of standard errors) to be used to calculate the heights confidendence interval for ssr calling and be able to customize the thresholds when using the \code{\link{threshs}} function}
 
 \item{shift}{The number of base pairs to be used for discarding neighboring peaks to the tallest peaks, i.e. if 2 peaks are 0.3 bp together the smalles will be discarded}
 
@@ -33,7 +33,7 @@ score.easy(my.inds, cols = 1, n.inds = NULL, panel=NULL,
 
 \item{channel.ladder}{A scalar value indicating in which channel or color the ladder was read}
 
-\item{ploidy}{A scalar value indicating the ploidy of the organism to be scored}
+\item{ploidy}{A scalar value indicating the ploidy of the organism to be scored. TO BE IMPLEMENTED SOON. STILL NOT FUNCTIONAL.}
 
 \item{ci.upp}{A scalar value indicating how many standar errors will be used to detect peaks when checking the height of the ladder peaks(upper bound). To be used in the \code{\link{find.ladder}} function}
 
@@ -53,13 +53,13 @@ score.easy(my.inds, cols = 1, n.inds = NULL, panel=NULL,
 
 \item{ladd.init.thresh}{ A value of intensity to detect peaks in the internal use of the \code{\link{find.ladder}} function. We recommend not to deal to much with it unless you identified special situations with your ladder}
 
-\item{method}{An argument indicating one of the 2 methods available; "cor" makes all possible combination of peaks and searches exhaustive correlations to find the right peaks corresponsding to the expected DNA weights, or "ci" constructing confidence intervals to look for peaks meeting the conditions specified in the previous arguments. Passed to the find.ladder function working internally.}
+\item{method}{An argument indicating one of the 3 methods available; "cor" makes all possible combination of peaks and searches exhaustive correlations to find the right peaks corresponsding to the expected DNA weights, or "ci" constructing confidence intervals to look for peaks meeting the conditions specified in the previous arguments, "iter" an iterative procedure looking for the most likely peaks meeting your ladder expectation. Default is "iter". Passed to the find.ladder function working internally.}
 
-\item{env}{ this is used to detect the environment of the user and load the result in the same environment.}
+\item{env}{ this is used to detect the environment of the user and load the result in the same environment. Don't mess with it.}
 
 \item{plotting}{ a TRUE/FALSE value indicating if the plots should be drawn or not. The default value is TRUE.}
 
-\item{electro}{A TRUE/FALSE value indicating if the electrogram/gel should be drawn or not. The default value is TRUE.}
+\item{electro}{A TRUE/FALSE value indicating if the electrogram/gel should be drawn or not. The default value is FALSE.}
 
 \item{pref}{A scalar value indicating how many plots should be drawn in the output plotting. The dafault is 3.}
 }

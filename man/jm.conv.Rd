@@ -4,7 +4,7 @@
 Scores to JoinMap converter
 }
 \description{
-This function converts a data frame containing the scores from score.easy to a new data frame with joinmap calls. The parents need to be provided in the first and second row.
+This function converts a data frame containing the scores from score.easy to a new data frame with joinmap calls. The parents need to be provided in the first and second row. Currently only works for CP type of crosses. From CP type to F2 and BC2 is straight forward.
 }
 \usage{
 jm.conv(a)

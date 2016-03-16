@@ -1,5 +1,5 @@
 find.ladder <-
-  function(x, ladder, ci.upp=1.96, ci.low=1.96, draw=TRUE, dev=50, warn=TRUE, init.thresh=250, sep.index=8, method="iter", avoid=1000, who="sample", attempt=10){
+  function(x, ladder, ci.upp=1.96, ci.low=1.96, draw=TRUE, dev=50, warn=TRUE, init.thresh=250, sep.index=8, method="iter", avoid=1000, who="sample", attempt=10, cex.title=0.8){
     #roundUP <- function(x) 10^ceiling(log10(x))
     
     MSE <- function(x,y){
@@ -27,13 +27,13 @@ find.ladder <-
     }
     ##### stablish a minimum threshold
     thresh=init.thresh
-    roxy <- big.peaks.col(x, thresh) # find all peaks with that threshold
+    roxy <- big.peaks.col(x[1:length(x)], thresh) # find all peaks with that threshold
     nnn <- length(roxy$pos)
     while(nnn < length(ladder)){
       #print(paste("Warning: Your ladder for the sample",attr(x,"name") ,"is bad, very low intensity in RFU was found, we are reducing the threshold 2x trying to find it, don't worry too much the analysis will keep going anyways"))
       cat("\nReducing threshold 2x to find ladder \n")
       thresh=thresh/2
-      roxy <- big.peaks.col(x, thresh) # find all peaks with that threshold
+      roxy <- big.peaks.col(x[1:length(x)], thresh) # find all peaks with that threshold
       nnn <- length(roxy$pos)
     }
     ####
@@ -232,7 +232,7 @@ find.ladder <-
       roxy3 <- rt[[which(corrs3 == max(corrs3))]]
       if(draw == TRUE){
         limi <- sort(roxy3$hei, decreasing = TRUE)
-        plot(x, type="l", xaxt="n", ylim=c(0,(limi[3]+1000)), cex.axis=0.6, las=2, xlim=c((min(roxy3$pos)-100),(max(roxy3$pos)+100)), col=transp("grey35",0.7), ylab="RFU", xlab="", lwd=2)
+        plot(x, type="l", xaxt="n", ylim=c(0,(limi[3]+1000)), cex.axis=0.6, las=2, xlim=c((min(roxy3$pos)-100),(max(roxy3$pos)+100)), col=transp("grey35",0.7), ylab="RFU", xlab="", lwd=2, main=attributes(x)$mycomm, cex.main=cex.title)
         axis(1, at=roxy3$pos, labels=roxy3$wei, cex.axis=0.6)
         points(x=roxy3$pos, y=roxy3$hei,cex=1.1, col=transp("black",0.85))
         points(x=roxy3$pos, y=roxy3$hei, pch=20, col=transp("red",0.7))
@@ -265,7 +265,7 @@ find.ladder <-
         nono <- length(x) - max(roxy$pos)
         
         if(draw == TRUE){
-          plot(x, type="l", xaxt="n", ylab="Intensity", col=transp("gray29",0.6))
+          plot(x, type="l", xaxt="n", ylab="Intensity", col=transp("gray29",0.6), main=attributes(x)$mycomm, cex.main=cex.title)
           axis(1, at=roxy$pos, labels=roxy$wei, cex.axis=0.6)
           abline(v=found, col="red", lty=3)
         }
@@ -273,7 +273,7 @@ find.ladder <-
       }else{# there's actually no ladder so no good correlation was found
         roxy <- list(pos=seq(1,nnn) + rnorm(nnn,0,1), hei=seq(1,nnn)+ rnorm(nnn,0,1), wei= ladder)
         print("Friend I was not able to find a ladder in this sample or you used the wrong ladder, look the plot")
-        plot(x, type="l", col=transp("black",0.5))
+        plot(x, type="l", col=transp("black",0.5), main=attributes(x)$mycomm, cex.main=cex.title)
       }
     }
     #####################
@@ -291,7 +291,7 @@ find.ladder <-
         roxy <- list(pos=roxy$pos[vv:((vv-1)+length(ladder))], hei=roxy$hei[vv:((vv-1)+length(ladder))], wei=ladder)
         #lapply(roxy,length)
         if(draw == TRUE){
-          plot(x, type="l", xaxt="n", ylim=c(0,(max(roxy$hei)+1000)), cex.axis=0.6, las=2, xlim=c((min(roxy$pos)-100),(max(roxy$pos)+100)), col=transp("grey35",0.7), ylab="RFU", xlab="", lwd=2)
+          plot(x, type="l", xaxt="n", ylim=c(0,(max(roxy$hei)+1000)), cex.axis=0.6, las=2, xlim=c((min(roxy$pos)-100),(max(roxy$pos)+100)), col=transp("grey35",0.7), ylab="RFU", xlab="", lwd=2, main=attributes(x)$mycomm,cex.main=cex.title)
           axis(1, at=roxy$pos, labels=roxy$wei, cex.axis=0.6)
           points(x=roxy$pos, y=roxy$hei,cex=1.1, col=transp("black",0.85))
           points(x=roxy$pos, y=roxy$hei, pch=20, col=transp("red",0.7))
@@ -347,7 +347,7 @@ find.ladder <-
             #yyline <- seq(0,2*max(roxy$hei), by=facto)
             
             #if((length(x) - min(roxy$pos)) > 500){nono <- min(roxy$pos) - 200}else{nono <- 0}
-            plot(x, type="l", xaxt="n", ylim=c(0,(max(roxy$hei)+1000)), cex.axis=0.6, las=2, xlim=c((min(roxy$pos)-100),(max(roxy$pos)+100)), col=transp("grey35",0.7), ylab="RFU", xlab="", lwd=2)
+            plot(x, type="l", xaxt="n", ylim=c(0,(max(roxy$hei)+1000)), cex.axis=0.6, las=2, xlim=c((min(roxy$pos)-100),(max(roxy$pos)+100)), col=transp("grey35",0.7), ylab="RFU", xlab="", lwd=2, main=attributes(x)$mycomm, cex.main=cex.title)
             #rect(par("usr")[1],par("usr")[3],par("usr")[2],par("usr")[4],col = "gray90")
             
             #abline(h=yyline, col="white", lwd=1.5, lty=3)
@@ -366,7 +366,7 @@ find.ladder <-
         }else{# there's actually no ladder so no good correlation was found
           roxy <- list(pos=seq(1,nnn) + rnorm(nnn,0,1), hei=seq(1,nnn)+ rnorm(nnn,0,1), wei= ladder)
           print("Friend I don't think you have ladder in this sample or you used the wrong ladder, look the plot")
-          plot(x, type="l")
+          plot(x, type="l", main=attributes(x)$mycomm, cex.main=cex.title)
         }
       }
     }
@@ -444,7 +444,7 @@ find.ladder <-
           print("Are you sure this is a ladder channel, we did not find a clear pattern, stop a minute to check the plot")
         }
         if(draw != F){
-          plot(x, ylim=c(0,mm+se2.upp), type="l")
+          plot(x, ylim=c(0,mm+se2.upp), type="l", main=attributes(x)$mycomm, cex.main=cex.title)
         }
         #roxy <- list(pos=roxy$pos, hei=roxy$hei, wei= ladder)
         roxy <- list(pos=seq(1,length(ladder)) + rnorm(length(ladder),0,1), hei=seq(1,length(ladder))+ rnorm(length(ladder),0,1), wei= ladder)
@@ -460,7 +460,7 @@ find.ladder <-
         mod <- lm(yy~xx)
         
         xlabels <- as.vector(predict(mod, newdata=data.frame(xx=seq(0,max(ladder),by=25))))
-        plot(x, type="l", main=paste("Ladder in channel provided",sep=""), xlab="", ylab="Intensity", xaxt="n", col=transp("grey39",0.6), xlim=c(0,(max(roxy$pos)+100)), ylim=c(-100,max(roxy$hei)))
+        plot(x, type="l", main=attributes(x)$mycomm,cex.main=cex.title, xlab="", ylab="Intensity", xaxt="n", col=transp("grey39",0.6), xlim=c(0,(max(roxy$pos)+100)), ylim=c(-100,max(roxy$hei)))
         if(method == "cor"){
           legend("topleft", legend=paste("Correlation=",round(max(dd)), sep=""), bty="n") 
         }

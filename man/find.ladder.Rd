@@ -10,7 +10,8 @@ Please! if using the confidence interval method ("ci"), which is not the default
 \usage{
 find.ladder(x, ladder, ci.upp=1.96, ci.low=1.96, 
             draw=TRUE, dev=50, warn=TRUE, init.thresh=250, 
-            sep.index=8, method="iter", avoid=1000, who="sample", attempt=10)
+            sep.index=8, method="iter", avoid=1000, who="sample", 
+            attempt=10, cex.title=0.8)
 }
 
 \arguments{
@@ -39,6 +40,9 @@ find.ladder(x, ladder, ci.upp=1.96, ci.low=1.96,
 \item{attempt}{A scalar value indicating how many attempts should be made to find the real ladder peaks. By default is 7 attempts, which means that will try to build the model assuming that the first peak found in the ladder is the corresponding first peak of the expected ladder, then moves to the 2nd peak until the 7th and the seven models are compared picking the most likely model based on the R2 value for each of the models.}
 
 \item{avoid}{A scalar value indicating how many indexes should be avoided when the method of correlation fails to find peaks and a random sample will be drawn from the existing peaks. The default is 1500 indexes which will samples peaks avoiding the first 1500 indexes which is usually related to noisy area in some ladders.}
+
+\item{cex.title}{A scalar value indicating how big the title (name of the sample) in the plot should be.}
+
 }
 \details{
 We have implemented 3 methods for sizing the ladder, each with their advantages and disadvantages. The default method named "red" which stands for "reduction" detect the region where peaks exist (in indexes) in the ladder channel and assumes that your ladder should have some equivalence in indexes and creates an 'expected ladder', then the putative ladder moves along the peak region and correlations and squared distances to the closest peaks are calculated. We have define the coefficient of similarity (CS) as cor(x,y)/var(z), where:
