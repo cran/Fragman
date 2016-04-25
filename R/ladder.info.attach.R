@@ -49,3 +49,33 @@ ladder.info.attach <- function(stored, ladder, channel.ladder=NULL, ci.upp=1.96,
   layout(matrix(1,1,1))
   return(all.names[which(correlations < .92)])
 }
+
+
+
+##################################################################################################
+#Startup function
+#this function is executed once the library is loaded
+.onAttach = function(library, pkg)
+{
+  Rv = R.Version()
+  if(!exists("getRversion", baseenv()) || (getRversion() < "2.1"))
+    stop("This package requires R 2.1 or later")
+  assign(".Fragman.home", file.path(library, pkg),
+         pos=match("package:Fragman", search()))
+  Fragman.version = "1.0.4 (2016-05-01)"
+  assign(".Fragman.version", Fragman.version, pos=match("package:Fragman", search()))
+  if(interactive())
+  {
+    packageStartupMessage(paste("## ========================================================= ## "),appendLF=TRUE)
+    packageStartupMessage(paste("# Fragman: An R package for Fragment Analysis ", Fragman.version, ". ",sep=""),appendLF=TRUE)
+    packageStartupMessage("# Author: Covarrubias-Pazaran et al.",appendLF=TRUE)
+    packageStartupMessage("# Published: BMC Genetics 17(62):1-8",appendLF=TRUE)
+    packageStartupMessage("# Supported and partially funded by:", appendLF=TRUE)
+    packageStartupMessage("#    + Council of Science and Technology (CONACYT)", appendLF=TRUE)
+    packageStartupMessage("#    + US Department of Agriculture (USDA-ARS)", appendLF=TRUE)
+    packageStartupMessage("# Type 'help(Fragman)' for summary information",appendLF=TRUE)
+    packageStartupMessage(paste("## ========================================================= ## "),appendLF=TRUE)
+  }
+  invisible()
+}
+
