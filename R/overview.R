@@ -21,7 +21,7 @@ function (my.inds, cols = 1, n.inds = c(1:length(my.inds)), xlimi=c(min(ladder),
   for (i in 1:length(n.inds)) {
     v1 <- n.inds[i]
     my.inds2[[i]] <- my.inds[[v1]]
-    names(my.inds2)[i] <- names(my.inds)[i]
+    names(my.inds2)[i] <- names(my.inds)[v1]
   }
   my.inds <- my.inds2
   #if (!require("zoom")) {
@@ -86,7 +86,10 @@ function (my.inds, cols = 1, n.inds = c(1:length(my.inds)), xlimi=c(min(ladder),
        xlim=c(xlimi[1],xlimi[2]), ylim=c(0, tot.heii), col=cfp[cols], xlab="Size in base pairs", ylab="Plants selected from bottom to top", xaxt="n", lwd=2)
   axis(1, at=seq(xlimi[1],xlimi[2], by=2), labels=seq(xlimi[1],xlimi[2], by=2))
   b <- sum(unlist(heii)[1]) 
-  legend(x=xlimi[1],y=b, legend=paste("Plant",nn[1]), bty="n")
+  
+  toput <- names(my.inds2)
+  
+  legend(x=xlimi[1],y=b, legend=paste("Plant",toput[1]), bty="n", cex=0.65)
   count <- count + 1
   # make a loop for adding the lines of the other plants
   if(length(n.inds) > 1){
@@ -99,7 +102,7 @@ function (my.inds, cols = 1, n.inds = c(1:length(my.inds)), xlimi=c(min(ladder),
       b <- sum(unlist(heii)[1:i]) # maximim height adding the new plant
       yy <- new.whole.data[[i]]$yy + a
       lines(new.whole.data[[i]]$xx[-c(1:common[[i]])], y=yy[-c(1:common[[i]])], type="l", col=cfp[cols],lwd=2)
-      legend(x=xlimi[1],y=b, legend=paste("Plant",nn[hh1]), bty="n")
+      legend(x=xlimi[1],y=b, legend=paste("Plant",toput[i]), bty="n", cex=0.65)
       #plot(cc[-c(1:common[[i]])], , ylim=c(0, tot.heii))
       ################################
       setTxtProgressBar(pb, (count/tot)*.5)### keep filling the progress bar

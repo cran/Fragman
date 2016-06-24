@@ -9,8 +9,8 @@ Please! if using the confidence interval method ("ci"), which is not the default
 }
 \usage{
 find.ladder(x, ladder, ci.upp=1.96, ci.low=1.96, 
-            draw=TRUE, dev=50, warn=TRUE, init.thresh=250, 
-            sep.index=8, method="iter", avoid=1000, who="sample", 
+            draw=TRUE, dev=50, warn=TRUE, init.thresh=NULL, 
+            sep.index=8, method=NULL, avoid=1000, who="sample", 
             attempt=10, cex.title=0.8)
 }
 

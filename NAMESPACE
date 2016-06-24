@@ -5,5 +5,5 @@ importFrom("grDevices", "col2rgb", "colorRampPalette", "rgb")
              "lines", "plot", "points", "rect", "text", "locator",
              "par")
   importFrom("stats", "cor", "fft", "lm", "median", "na.omit", "predict",
-             "rnorm", "sd", "cov")
-  importFrom("utils", "combn", "setTxtProgressBar", "txtProgressBar")
+             "rnorm", "sd", "cov", "quantile")
+  importFrom("utils", "combn", "setTxtProgressBar", "txtProgressBar","read.table")

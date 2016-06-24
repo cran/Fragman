@@ -11,8 +11,8 @@ Please! once you have found the best parameters for the arguments to match your 
 overview2(my.inds, cols = 1, n.inds = NULL, xlim = NULL, 
         ylim = NULL, ladder, channel.ladder = NULL, ploidy = 2, 
         ci.upp = 1.96, ci.low = 1.96, dev = 50, method="iter", 
-        init.thresh=200, ladd.init.thresh=200, lwd=.25, warn=TRUE, 
-        min.panel=100, env = parent.frame()) 
+        init.thresh=NULL, ladd.init.thresh=200, lwd=.25, warn=TRUE, 
+        min.panel=100, suggested=TRUE, env = parent.frame()) 
 
 }
 
@@ -50,6 +50,8 @@ overview2(my.inds, cols = 1, n.inds = NULL, xlim = NULL,
 \item{warn}{A TRUE/FALSE value indicating if warnings should be provided when detecting the ladder}
 
 \item{min.panel}{A scalar value indicating which peak values should be ignored when creating a panel. If 'xlim' values are specified the 'min.panel' value is ignored and instead the panel peaks provided by the program are based in the region where you are zooming in.}
+
+\item{suggested}{ a TRUE/FALSE value statement declaring if you want the program to return suggested peaks for your panel. The default is TRUE but can be anoying if the program draws too many peaks.}
 
 \item{env}{ this is used to detect the environment of the user and load the result in the same environment.}
 }

@@ -87,12 +87,104 @@ Ben Hui Liu. 1998. Statistical Genomics. CRC Press LLC. ISBN 0-8493-3166-8.
 }
 
 \examples{
+## ================================= ##
+## ================================= ##
+##    FIRST PART OF THE ANALYSIS
+## LOAD DATA, SET LADDER, MATCH LADDER 
+## ================================= ##
+## ================================= ##
+
+#####################
+## LOAD YOUR DATA ###
+#####################
+
+### you would use:
+# my.plants <- storing.inds(folder)
+### where folder is the path where your samples are, i.e. "~/Documents"
+### here we just load our example data and use the first 2 plants
+
+?my.plants
 data(my.plants)
-my.plants <- my.plants[1]
+my.plants <- my.plants[1:2]
+
+#######################
+## MATCH YOU LADDER ###
+#######################
+
+### create a vector indicating the sizes of your ladder
+
 my.ladder <- c(50, 75, 100, 125, 129, 150, 175, 200, 225, 250, 275, 300, 325, 350, 375)
-my.panel <- c(190:230)
-# make sure to have sufficient plot area or will get an error message
-score.easy (my.inds=my.plants, cols = 1, panel=my.panel, ladder=my.ladder)
 
+### match your ladder to the peaks and attach the information 
+### to the R environment using the function: (DO ONLY ONCE PER BATCH)
 
+ladder.info.attach(stored=my.plants, ladder=my.ladder)
+
+###****************************************************************************************###
+### OPTIONAL:
+### If the function detects some bad samples you can correct them manually using
+### the ladder.corrector() function, i.e.:
+### ladder.corrector(stored=my.plants, 
+#to.correct="FHN152-CPN01_01A_GH1x35_152-148-209_717-704-793_367-382-381.fsa", 
+#ladder=my.ladder)
+###****************************************************************************************###
+
+## ================================= ##
+## ================================= ##
+##    SECOND PART OF THE ANALYSIS
+## CREATE PANEL, SCORE SAMPLES 
+## ================================= ##
+## ================================= ##
+
+#######################
+## CREATE A PANEL   ###
+#######################
+
+### In fragment analysis you usually design a panel where you indicate
+### which peaks are real. You may use the overview2 function which plots all the
+### plants in the channel you want in the base pair range you want
+
+### Just to show the uptput. Here we select the channel 3 (yellow) by setting 'cols=3' 
+### and providing the samples (my.plants) and ladder (my.ladder)
+
+overview2(my.inds=my.plants, cols = 3, ladder=my.ladder, init.thresh=5000)
+
+### You could also click on the peaks you think are real if the ones
+### selected by the program are not correct. This can be done by using the 
+### 'locator' function and press 'Esc' when you're done, i.e.:
+
+# my.panel <- locator(type="p", pch=20, col="red")$x
+
+### That way you can click over the peaks and get the sizes
+### in base pairs stored in a vector named my.panel
+### Just for demonstration purposes I will use the suggested peaks by 
+### the program using overview2, which will return a vector with 
+### expected DNA sizes to be used in the next step for scoring
+### we'll do it in the 160-190 bp region
+### KEEP IN MIND THIS IS NOT THE BEST WAY TO DO IT, BETTER
+### USE "my.panel <- locator(type="p", pch=20, col="red")$x" AND SELECT MANUALLY
+
+my.panel <- overview2(my.inds=my.plants, cols = 3, 
+                    ladder=my.ladder, init.thresh=7000, 
+                    xlim=c(160,190)); my.panel
+
+##########################
+## SCORE YOUR SAMPLES  ###
+##########################
+
+### When a panel is created is time to score the samples by providing the initial
+### data we read, the ladder vector, the panel vector, and our specifications
+### of channel to score (other arguments are available)
+
+### Here we will score our samples for channel 3 with our panel created previously
+
+a <- score.easy (my.inds=my.plants, cols = 3, panel=my.panel,
+                ladder=my.ladder, electro=FALSE)
+
+### Check the plots and make sure they were scored correctly. In case some samples 
+### are wrong you might want to use the locator function again and figure out 
+### the size of your peaks. To extract your peaks in a data.frame do the following:
+
+final.results <- get.scores(a)
+final.results 
 }

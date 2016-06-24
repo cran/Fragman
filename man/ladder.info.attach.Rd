@@ -5,12 +5,13 @@
 \description{
 This function uses the information stored by the \code{\link{storing.inds}} function and a vector specifying the ladder/standard and finds the real peaks corresponding to the expected weights. The user may use this function to be able to load the ladder information in the global environment of R, so when using the \code{\link{overview}} or \code{\link{score.easy}} functions calculations will be performed faster, if the function is not used the program will calculate the ladder information each time \code{\link{overview}} or \code{\link{score.easy}} functions are used. 
 
-Please! if using the confidence interval method ("ci"), which is NOT the default, once you have found the best parameters for the arguments to match your ladder using the \code{\link{detect.ladder}} function, please pass those values to all the posterior functions, such as the 'dev' argument.
+NOTE: THE STEP OF MATCHING THE LADDER WITH YOUR SAMPLES USING THE `ladder.info.attach` FUNCTION IS CRITICAL. IF YOU HAVE ANY PROBLEM TRY MODIFYING THE ARGUMENT 'method', WITH THE 2 MOST EFFECTIVE METHODS method="iter" OR method="iter2"
+
 }
 \usage{
 ladder.info.attach(stored, ladder, channel.ladder=NULL, 
-                  ci.upp=1.96, ci.low=1.96, dev=50, warn= FALSE, method="iter", 
-                  ladd.init.thresh=400, env = parent.frame(), prog=TRUE, 
+                  ci.upp=1.96, ci.low=1.96, dev=50, warn= FALSE, method=NULL, 
+                  ladd.init.thresh=NULL, env = parent.frame(), prog=TRUE, 
                   draw=TRUE, attempt=10)
 }
 
@@ -29,7 +30,7 @@ ladder.info.attach(stored, ladder, channel.ladder=NULL,
 
 \item{warn}{A TRUE/FALSE value indicating if warnings should be provided when detecting the ladder}
 
-\item{method}{An argument indicating one of the 2 methods available; "cor" makes all possible combination of peaks and searches exhaustive correlations to find the right peaks corresponsding to the expected DNA weights, or "ci" constructing confidence intervals to look for peaks meeting the conditions specified in the previous arguments}
+\item{method}{An argument indicating one of the methods available; "iter" makes an iterative procedure to find the ladder, "iter2" the same but backwards, "cor" makes all possible combination of peaks and searches exhaustive correlations to find the right peaks corresponsding to the expected DNA weights, or "ci" constructing confidence intervals to look for peaks meeting the conditions specified in the previous arguments. The default allows the program to pick among "iter" and "iter2".}
 
 \item{ladd.init.thresh}{ A value of intensity to detect peaks in the internal use of the \code{\link{find.ladder}} function. We recommend not to deal to much with it unless you identified special situations with your ladder}
 
@@ -43,7 +44,10 @@ ladder.info.attach(stored, ladder, channel.ladder=NULL,
 
 }
 \details{
-The peaks are detected by default using a correlation method bu the user can use confidence intervals if desired.
+The peaks are detected by default using a correlation method but the user can use confidence intervals if desired.
+
+
+Please! if using the confidence interval method ("ci"), which is NOT the default, once you have found the best parameters for the arguments to match your ladder using the \code{\link{detect.ladder}} function, please pass those values to all the posterior functions, such as the 'dev' argument.
 
 }
 \value{

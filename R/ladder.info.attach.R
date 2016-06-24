@@ -1,4 +1,4 @@
-ladder.info.attach <- function(stored, ladder, channel.ladder=NULL, ci.upp=1.96, ci.low=1.96, dev=50, warn= FALSE, method="iter", ladd.init.thresh=400, env = parent.frame(), prog=TRUE, draw=TRUE, attempt=10){
+ladder.info.attach <- function(stored, ladder, channel.ladder=NULL, ci.upp=1.96, ci.low=1.96, dev=50, warn= FALSE, method=NULL, ladd.init.thresh=NULL, env = parent.frame(), prog=TRUE, draw=TRUE, attempt=10){
   all.names <- names(stored)
   
   if(is.null(channel.ladder)){
@@ -47,7 +47,11 @@ ladder.info.attach <- function(stored, ladder, channel.ladder=NULL, ci.upp=1.96,
   }
   ######################
   layout(matrix(1,1,1))
-  return(all.names[which(correlations < .92)])
+  
+  bads <- all.names[which(correlations < .92)]
+  if(length(bads)>0){
+    return(bads) 
+  }
 }
 
 
@@ -62,7 +66,7 @@ ladder.info.attach <- function(stored, ladder, channel.ladder=NULL, ci.upp=1.96,
     stop("This package requires R 2.1 or later")
   assign(".Fragman.home", file.path(library, pkg),
          pos=match("package:Fragman", search()))
-  Fragman.version = "1.0.4 (2016-05-01)"
+  Fragman.version = "1.0.5 (2016-07-01)"
   assign(".Fragman.version", Fragman.version, pos=match("package:Fragman", search()))
   if(interactive())
   {

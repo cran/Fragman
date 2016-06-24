@@ -1,8 +1,11 @@
 overview2 <- function (my.inds, cols = 1, n.inds = NULL, xlim = NULL, ylim = NULL, ladder, channel.ladder = NULL, ploidy = 2, ci.upp = 1.96, 
-                       ci.low = 1.96, dev = 50, method="iter", init.thresh=200, ladd.init.thresh=200, lwd=.25, warn=TRUE, min.panel=100, env = parent.frame()) 
+                       ci.low = 1.96, dev = 50, method="iter", init.thresh=NULL, ladd.init.thresh=200, lwd=.25, warn=TRUE, min.panel=100, 
+                       suggested=TRUE, env = parent.frame()) 
 {
   
-  
+  oldw <- getOption("warn")
+  options(warn = -1)
+  #options(show.error.messages = FALSE)
   if(method == "ci"){
     print(paste("Please make sure you have used the same 'dev' value you found convenient for your ladder detection or probably your call will not match"))
   }
@@ -14,6 +17,12 @@ overview2 <- function (my.inds, cols = 1, n.inds = NULL, xlim = NULL, ylim = NUL
     print(paste("ERROR MY FRIEND!! you have indicated an argument channel.ladder=5, but your data contains less channels/colors"))
     stop
   }
+  ## provide initial threshold if not specified
+  if(is.null(init.thresh) & suggested){
+    listaaaa<- do.call("cbind",lapply(my.inds, function(x){y <- x[,cols]; return(y)}))
+    init.thresh <-quantile(listaaaa,.99)#median(listaaaa)*10
+  }
+  
   ## number of samples to do
   if(is.null(n.inds )){
     n.inds <- c(1:length(my.inds))
@@ -66,7 +75,8 @@ overview2 <- function (my.inds, cols = 1, n.inds = NULL, xlim = NULL, ylim = NUL
     ###################
     count <- count + 1
     ###################
-    newxx <- as.vector(predict(list.models[[h1]], newdata = data.frame(x = xx[[h]])))
+    newxx <- as.vector(try(predict(list.models[[h1]], newdata = data.frame(x = xx[[h]])), silent = TRUE))
+    #newxx <- as.vector(predict(list.models[[h1]], newdata = data.frame(x = xx[[h]])))
     newyy <- my.inds2[[h]][, cols]
     new.whole.data[[h]] <- list(xx = newxx, yy = newyy)
     ################################
@@ -84,43 +94,44 @@ overview2 <- function (my.inds, cols = 1, n.inds = NULL, xlim = NULL, ylim = NUL
   
   ## ---------------------------------------
   ## provide inital guesses of which should be the panel peaks
-  my.panel <- lapply(new.whole.data,
-         function(popo){
-           pann <- big.peaks.col(popo$yy, tre=init.thresh)
-           pann2 <- popo$xx[pann$pos]
-           pann3 <- list(pos=pann$pos, hei=pann$hei, wei=pann2)
-           pkpn <- separate(pann3, type="bp", shift=1)
-           return(list(wei=pkpn$wei, hei=pkpn$hei))
-         }
-  )
-  #plot(unlist(my.panel))
-  ## unlist all the peaks found for all the plants
-  allpan <- unlist(lapply(my.panel, function(x){x$wei}))
-  allhei <- unlist(lapply(my.panel, function(x){x$hei}))
-  ## create a vector to store a the good peaks
-  panel1.1 <- numeric()
-  heis1.1 <- numeric()
-  for(za in seq(1,500, by=1)){
-    step1 <- abs(za- allpan)
-    good <- which(step1 < 0.48) # peak present at with minumum error of x bp
-    if(length(good) > (length(n.inds)*.05)){ # more than 20% of the times present
-      panel1.1[za] <- mean(allpan[good])
-      heis1.1[za] <- mean(allhei[good])
-    }else{panel1.1[za] <- NA; heis1.1[za] <- NA}
+  if(suggested){
+    my.panel <- lapply(new.whole.data,
+                       function(popo){
+                         pann <- big.peaks.col(popo$yy, tre=init.thresh)
+                         pann2 <- popo$xx[pann$pos]
+                         pann3 <- list(pos=pann$pos, hei=pann$hei, wei=pann2)
+                         pkpn <- separate(pann3, type="bp", shift=1)
+                         return(list(wei=pkpn$wei, hei=pkpn$hei))
+                       }
+    )
+    #plot(unlist(my.panel))
+    ## unlist all the peaks found for all the plants
+    allpan <- unlist(lapply(my.panel, function(x){x$wei}))
+    allhei <- unlist(lapply(my.panel, function(x){x$hei}))
+    ## create a vector to store a the good peaks
+    panel1.1 <- numeric()
+    heis1.1 <- numeric()
+    for(za in seq(1,500, by=1)){
+      step1 <- abs(za- allpan)
+      good <- which(step1 < 0.48) # peak present at with minumum error of x bp
+      if(length(good) > (length(n.inds)*.05)){ # more than 20% of the times present
+        panel1.1[za] <- mean(allpan[good])
+        heis1.1[za] <- mean(allhei[good])
+      }else{panel1.1[za] <- NA; heis1.1[za] <- NA}
+    }
+    if(is.null(xlim)){
+      panel.sugg <- panel1.1[-which(panel1.1 < min.panel | is.na(panel1.1))]
+      heis.sugg <- heis1.1[-which(panel1.1 < min.panel | is.na(panel1.1))]
+    }else{
+      prov <- panel1.1[which(panel1.1 > xlim[1] & panel1.1 < xlim[2])]
+      bad <- which(is.na(prov))
+      if(length(bad) > 0){panel.sugg <- prov[-bad]}else{panel.sugg <- prov}
+      #--
+      prov2 <- heis1.1[which(panel1.1 > xlim[1] & panel1.1 < xlim[2])]
+      bad2 <- which(is.na(prov2))
+      if(length(bad2) > 0){heis.sugg <- prov[-bad2]}else{heis.sugg <- prov2}
+    }
   }
-  if(is.null(xlim)){
-    panel.sugg <- panel1.1[-which(panel1.1 < min.panel | is.na(panel1.1))]
-    heis.sugg <- heis1.1[-which(panel1.1 < min.panel | is.na(panel1.1))]
-  }else{
-    prov <- panel1.1[which(panel1.1 > xlim[1] & panel1.1 < xlim[2])]
-    bad <- which(is.na(prov))
-    if(length(bad) > 0){panel.sugg <- prov[-bad]}else{panel.sugg <- prov}
-    #--
-    prov2 <- heis1.1[which(panel1.1 > xlim[1] & panel1.1 < xlim[2])]
-    bad2 <- which(is.na(prov2))
-    if(length(bad2) > 0){heis.sugg <- prov[-bad2]}else{heis.sugg <- prov2}
-  }
-  
   ## ------------------------------------------
   ## parameters for plots and lines
   tot.heii <- max(unlist(heii), na.rm = T)
@@ -137,7 +148,7 @@ overview2 <- function (my.inds, cols = 1, n.inds = NULL, xlim = NULL, ylim = NUL
        ylab = "DNA intensity in RFU", xaxt = "n", 
        lwd = lwd)
   axis(1, at = seq(xlim[1], xlim[2], by = 2), labels = seq(xlim[1], 
-                                                             xlim[2], by = 2), cex.axis=0.7)
+                                                           xlim[2], by = 2), cex.axis=0.7)
   axis(2, at = seq(0, tot.heii, by = 500), labels = seq(0, tot.heii, by = 500), las=1, cex.axis=0.4)
   if(length(n.inds) == 1){
     count <- count + 50
@@ -167,11 +178,13 @@ overview2 <- function (my.inds, cols = 1, n.inds = NULL, xlim = NULL, ylim = NUL
   }
   legend("topright", legend="Peaks suggested", pch=20, col="red", bty="n", cex=0.75)
   
-  points(x=panel.sugg, y=heis.sugg, pch=20, cex=0.7, col="red")
-  points(x=panel.sugg, y=heis.sugg, cex=0.9, col="black")
   
+  options(warn = oldw)
   close(pb) # close the progress bar
-  cat("\n THE PEAKS RETURNED ARE SUGGESTIONS. \n   My suggestion: \n a) Use the locator function, i.e. ''my.panel <- locator(type='p', pch=20, col='red')$x'' \n b) Click over the peaks you want to include in your panel \n c) Press the 'esc' key when done selecting peaks \n d) Make sure to provide the panel vector in the score.easy() function \n \n")
-  
+  cat("\n THE PEAKS RETURNED ARE SUGGESTIONS. \n   What you should do: \n a) Use the locator function, i.e. ''my.panel <- locator(type='p', pch=20, col='red')$x'' \n b) Click over the peaks you want to include in your panel \n c) Press the 'esc' key when done selecting peaks \n d) Make sure to provide the panel vector in the score.easy() function \n \n")
+  if(suggested){
+    points(x=panel.sugg, y=heis.sugg, pch=20, cex=0.7, col="red")
+    points(x=panel.sugg, y=heis.sugg, cex=0.9, col="black")
   return(panel.sugg)
+  }
 }

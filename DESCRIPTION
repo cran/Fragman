@@ -1,15 +1,15 @@
 Package: Fragman
 Type: Package
 Title: Fragment Analysis in R
-Version: 1.0.4
-Date: 2016-05-01
+Version: 1.0.5
+Date: 2016-06-23
 Author: Giovanny Covarrubias-Pazaran, Luis Diaz-Garcia, Brandon Schlautman, Walter Salazar, Juan Zalapa.
 Maintainer: Giovanny Covarrubias-Pazaran <covarrubiasp@wisc.edu>
-Description: Performs fragment analysis using genetic data coming from capillary electrophoresis machines. These are files with FSA extension which stands for FASTA-type file and contains DNA fragment intensities read by machinery. In addition to visualization, it performs automatic scoring of SSRs (Sample Sequence Repeats; a type of genetic marker very common across the genome) and other type of PCR markers (standing for Polymerase Chain Reaction) in biparental populations such as F1, F2, BC (backcross), and diversity panels (collection of genetic diversity).
+Description: Performs fragment analysis using genetic data coming from capillary electrophoresis machines. These are files with FSA extension which stands for FASTA-type file, and .txt files from Beckman CEQ 8000 system, both contain DNA fragment intensities read by machinery. In addition to visualization, it performs automatic scoring of SSRs (Sample Sequence Repeats; a type of genetic marker very common across the genome) and other type of PCR markers (standing for Polymerase Chain Reaction) in biparental populations such as F1, F2, BC (backcross), and diversity panels (collection of genetic diversity).
 License: GPL-3
 URL: http://www.wisc.edu
-Packaged: 2016-04-25 16:03:30 UTC; cova_ruber
+Packaged: 2016-06-24 14:12:05 UTC; cova_ruber
 NeedsCompilation: no
 Repository: CRAN
-Date/Publication: 2016-04-25 18:51:57
+Date/Publication: 2016-06-24 19:13:54
 Depends: R (>= 2.10)
