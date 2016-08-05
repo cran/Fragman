@@ -147,7 +147,7 @@ find.ladder <-function(x, ladder, ci.upp=1.96, ci.low=1.96, draw=TRUE, dev=50, w
                                  beta[-1])
           act <- roxy$pos[-which(roxy$pos %in% expect)]
           yoyo <- abs(expecto[i + 1] - act)
-          good <- which(yoyo == min(yoyo))
+          good <- which(yoyo == min(yoyo,na.rm = TRUE))
           expect[i + 1] <- act[good]
           if (mod$r2 < 0.9) {
             i = tope
@@ -161,6 +161,7 @@ find.ladder <-function(x, ladder, ci.upp=1.96, ci.low=1.96, draw=TRUE, dev=50, w
                                  beta[-1])
           act <- roxy$pos[-which(roxy$pos %in% expect)]
           yoyo <- abs(expecto[i + 1] - act)
+          #print(min(yoyo))
           good <- which(yoyo == min(yoyo, na.rm = TRUE))
           expect[i + 1] <- act[good]
           if (mod$r2 < 0.9) {
@@ -181,7 +182,7 @@ find.ladder <-function(x, ladder, ci.upp=1.96, ci.low=1.96, draw=TRUE, dev=50, w
             beta
           act <- roxy$pos[-which(roxy$pos %in% expect)]
           yoyo <- abs(expecto[i + 1] - act)
-          good <- which(yoyo == min(yoyo))
+          good <- which(yoyo == min(yoyo,na.rm = TRUE))
           expect[i + 1] <- act[good]
           if (is.na(mod$r2)) {
             mod$r2 <- 0.1
@@ -215,7 +216,7 @@ find.ladder <-function(x, ladder, ci.upp=1.96, ci.low=1.96, draw=TRUE, dev=50, w
             beta
           act <- roxy$pos[-which(roxy$pos %in% expect)]
           yoyo <- abs(expecto[i + 1] - act)
-          good <- which(yoyo == min(yoyo))
+          good <- which(yoyo == min(yoyo, na.rm = TRUE))
           expect[i + 1] <- act[good]
         }
         if (i == tope & i == 3) {
@@ -272,6 +273,22 @@ find.ladder <-function(x, ladder, ci.upp=1.96, ci.low=1.96, draw=TRUE, dev=50, w
     #caller
     last <- length(roxy$pos)
     lld <- length(ladder)
+    if((last-attempt) < 0){
+      #roxy2 <- roxy#list(pos=posi, hei=heii, wei=ladder.call[1:length(posi)], corr=abs(cor(ladder.call[1:length(posi)],posi)), error=fact)#sum(error, na.rm=TRUE))
+      roxy$wei <- ladder[1:length(roxy$pos)]
+      roxy$corr <- 0
+      roxy$error <- 0
+      if(draw == TRUE){
+        limi <- sort(roxy$hei, decreasing = TRUE)
+        plot(x, type="l", xaxt="n", ylim=c(0,(limi[3]+1000)), cex.axis=0.6, las=2,  col=transp("grey35",0.7), ylab="RFU", xlab="", lwd=2, main=attributes(x)$mycomm, cex.main=cex.title)
+        axis(1, at=roxy$pos, labels=roxy$wei, cex.axis=0.6)
+        points(x=roxy$pos, y=roxy$hei,cex=1.1, col=transp("black",0.85))
+        points(x=roxy$pos, y=roxy$hei, pch=20, col=transp("red",0.7))
+        legend("topleft", legend=paste("Correlation:",round(roxy$corr, digits=4), sep=""), bty="n")
+        legend("topright", legend=c("Peaks selected"), col=c("red"), bty = "n", pch=c(20), cex=0.85)
+        legend("center", legend=c("Intensity too low to be detected"), col=c("red"), bty = "n", cex=0.85)
+      }
+    }else{
     # by default attempt=10 making all combinations of 1st 10 peaks
     step1 <- combn(roxy$pos[last:(last-attempt)],3)
     #### check MSE
@@ -331,7 +348,7 @@ find.ladder <-function(x, ladder, ci.upp=1.96, ci.low=1.96, draw=TRUE, dev=50, w
       
       lenlad <- length(ladder.call)
       
-      for(i in 3:tope){ # for all possible peaks
+      for(i in 3:(tope-1)){ # for all possible peaks
         if(i == 3 & i != tope){# initial step
           
           expect[tope:(tope-2)] <- roxy$pos[www]
@@ -348,7 +365,7 @@ find.ladder <-function(x, ladder, ci.upp=1.96, ci.low=1.96, draw=TRUE, dev=50, w
           act <- sort(roxy$pos[-which(roxy$pos %in% condo)], decreasing = TRUE)
           # see which is the next most likely value
           yoyo <- abs(expecto[i+1] - act)
-          good <- which(yoyo == min(yoyo))
+          good <- which(yoyo == min(yoyo, na.rm = TRUE))
           
           qwer <- i
           qwer2 <- length(expect)-qwer
@@ -375,7 +392,7 @@ find.ladder <-function(x, ladder, ci.upp=1.96, ci.low=1.96, draw=TRUE, dev=50, w
           act <- sort(roxy$pos[-which(roxy$pos %in% condo)], decreasing = TRUE)
           # see which is the next most likely value
           yoyo <- abs(expecto[i+1] - act)
-          good <- which(yoyo == min(yoyo))
+          good <- which(yoyo == min(yoyo, na.rm = TRUE))
           qwer <- i
           qwer2 <- length(expect)-qwer
           expect[qwer2] <- act[good]
@@ -391,13 +408,13 @@ find.ladder <-function(x, ladder, ci.upp=1.96, ci.low=1.96, draw=TRUE, dev=50, w
           #expecto <- predict(mod1, data.frame(xx=ladder.call))
           ladder.call2 <- sort(ladder.call, decreasing = TRUE)
           expect2 <- sort(expect, decreasing = TRUE)
-          xx <- cbind(ladder.call2[c(1:i)],ladder.call2[c(1:i)]^2,ladder.call2[c(1:i)]^3,ladder.call2[c(1:i)]^4)
+          xx <- cbind(ladder.call2[c(1:i)])#,ladder.call2[c(1:i)]^2,ladder.call2[c(1:i)]^3,ladder.call2[c(1:i)]^4)
           mod <- MSE3(mix=xx, miy=expect2)
           beta <- (mod)$beta
           if(length(which(is.na(beta))) > 0){
             beta[which(is.na(beta))] <- 0
           }
-          toto <- cbind(matrix(ladder.call2),matrix(ladder.call2)^2, matrix(ladder.call2)^3,matrix(ladder.call2)^4)
+          toto <- cbind(matrix(ladder.call2))#,matrix(ladder.call2)^2, matrix(ladder.call2)^3,matrix(ladder.call2)^4)
           expecto <- cbind(rep(1,dim(toto)[1]),toto) %*% beta
           
           # remove missing data
@@ -406,7 +423,7 @@ find.ladder <-function(x, ladder, ci.upp=1.96, ci.low=1.96, draw=TRUE, dev=50, w
           act <- sort(roxy$pos[-which(roxy$pos %in% condo)], decreasing = TRUE)
           # see which is the next most likely value
           yoyo <- abs(expecto[i+1] - act)
-          good <- which(yoyo == min(yoyo))
+          good <- which(yoyo == min(yoyo, na.rm = TRUE))
           qwer <- i
           qwer2 <- length(expect)-qwer
           expect[qwer2] <- act[good]
@@ -425,7 +442,7 @@ find.ladder <-function(x, ladder, ci.upp=1.96, ci.low=1.96, draw=TRUE, dev=50, w
         
         ##
       } # end of for loop
-      # plot(x, type="l"); abline(v=expect, col="red", lty=3)
+      #plot(x, type="l",ylim=c(0,800)); abline(v=expect, col="red", lty=3)
       ###########################################
       posi <- expect
       ## get rid of selected peaks after reaching the maximum values
@@ -442,8 +459,10 @@ find.ladder <-function(x, ladder, ci.upp=1.96, ci.low=1.96, draw=TRUE, dev=50, w
       }else{
         fact <- summary(lm(ladder.call[1:length(posi)]~poly(posi, degree=5)))$r.squared * fact3
       }
+    
       #plot(ladder.call~posi)
       roxy2 <- list(pos=posi, hei=heii, wei=ladder.call[1:length(posi)], corr=abs(cor(ladder.call[1:length(posi)],posi)), error=fact)#sum(error, na.rm=TRUE))
+    
       return(roxy2)
     }
     ############
@@ -451,9 +470,10 @@ find.ladder <-function(x, ladder, ci.upp=1.96, ci.low=1.96, draw=TRUE, dev=50, w
     ############
     ## end of caller
     # www <- data.frame(step4)[,1]
-    for(g in 1:dim(step4)[2]){
-      caller(www=step4[,g],roxy=roxy, ladder.call=ladder,x=x)
-    }
+    #for(g in 1:dim(step4)[2]){
+    #  plot(x,type="l",ylim=c(0,1000))
+    #  abline(v=caller(www=step4[,g],roxy=roxy, ladder.call=ladder,x=x)$pos,col="red")
+    #}
     
     rt <- apply(data.frame(step4), 2, FUN=caller, roxy=roxy, ladder.call=ladder,x=x)#
     corrs3 <- unlist(lapply(rt, function(x){x$error})) #; dis[which(dis == Inf)] <- 1
@@ -472,6 +492,7 @@ find.ladder <-function(x, ladder, ci.upp=1.96, ci.low=1.96, draw=TRUE, dev=50, w
       
     }
     roxy <- roxy3
+    }
   }
   #####################
   #####################

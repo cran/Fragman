@@ -1,8 +1,8 @@
-overview2 <- function (my.inds, cols = 1, n.inds = NULL, xlim = NULL, ylim = NULL, ladder, channel.ladder = NULL, ploidy = 2, ci.upp = 1.96, 
-                       ci.low = 1.96, dev = 50, method="iter", init.thresh=NULL, ladd.init.thresh=200, lwd=.25, warn=TRUE, min.panel=100, 
+overview2 <- function (my.inds, cols = 1, ladder, xlim = NULL, ylim = NULL, n.inds = NULL, channel.ladder = NULL, ploidy = 2,  
+                        method="iter2", init.thresh=NULL, ladd.init.thresh=200, lwd=.25, warn=TRUE, min.panel=100, 
                        suggested=TRUE, env = parent.frame()) 
 {
-  
+  ci.upp = 1.96; ci.low = 1.96;dev = 50
   oldw <- getOption("warn")
   options(warn = -1)
   #options(show.error.messages = FALSE)

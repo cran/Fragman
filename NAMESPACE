@@ -3,7 +3,7 @@ export(arrange.jm, best.layout, big.peaks.col, detect.ladder, find.ladder, get.s
 importFrom("grDevices", "col2rgb", "colorRampPalette", "rgb")
   importFrom("graphics", "abline", "axis", "image", "layout", "legend",
              "lines", "plot", "points", "rect", "text", "locator",
-             "par")
+             "par","grid")
   importFrom("stats", "cor", "fft", "lm", "median", "na.omit", "predict",
              "rnorm", "sd", "cov", "quantile")
   importFrom("utils", "combn", "setTxtProgressBar", "txtProgressBar","read.table")

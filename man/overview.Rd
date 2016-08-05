@@ -5,7 +5,6 @@
 \description{
 This function uses information from the FSA files read from \code{\link{storing.inds}} function and creates a plot to assess graphically the peaks of several plants in certain channel in order to score manually or assess the parental fragments in the case of biparentla ppulations. If you desire to create a panel you may want to take a look at \code{\link{overview2}}. The function contains several defaults in most of the arguments, please check arguments but in general.
 
-Please! once you have found the best parameters for the arguments to match your ladder using the \code{\link{detect.ladder}} function, please pass those values to this function since it will use the same function internally and your dna sizes will depend on that, please make sure the 'dev' argument is passed to the new functions.
 }
 \usage{
 overview(my.inds, cols = 1, n.inds = c(1:length(my.inds)), 
@@ -66,9 +65,9 @@ Ben Hui Liu. 1998. Statistical Genomics. CRC Press LLC. ISBN 0-8493-3166-8.
 
 \examples{
 data(my.plants)
-my.plants <- my.plants[1]
+my.plants <- my.plants[1:10]
 my.ladder <- c(50, 75, 100, 125, 129, 150, 175, 200, 225, 250, 275, 300, 325, 350, 375)
-overview(my.inds=my.plants, cols = 1, n.inds = c(1), ladder=my.ladder)
+overview(my.inds=my.plants, cols = 1, n.inds = c(1:5), ladder=my.ladder, xlim=c(200,220))
 # now use:
 # locator(type="p", pch=20, col="red")$x
 # to click over the peaks and get the sizes in base pairs

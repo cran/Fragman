@@ -1,9 +1,9 @@
 score.easy <-
-  function (my.inds, cols = 1, n.inds = NULL, panel=NULL, thresh=NULL, shift=0.8, ladder, channel.ladder=NULL, ploidy=2, ci.upp=1.96, ci.low=1.96, dev=50, left.cond=c(0.6,3), right.cond=0.35, warn=FALSE, window=0.5, init.thresh=200, ladd.init.thresh=200, method="iter", env = parent.frame(), plotting=TRUE, electro=TRUE, pref=3) 
+  function (my.inds, cols = 1, n.inds = NULL, panel=NULL, shift=0.8, ladder, channel.ladder=NULL, ploidy=2, left.cond=c(0.6,3), right.cond=0.35, warn=FALSE, window=0.5, init.thresh=200, ladd.init.thresh=200, method="iter2", env = parent.frame(), plotting=TRUE, electro=FALSE, pref=3) 
   {
     oldw <- getOption("warn")
     options(warn = -1)
-    
+    ci.upp=1.96; ci.low=1.96; dev=50 ;thresh=NULL
     if(length(n.inds) > length(my.inds)){
       print(paste("Hey! you are trying to examine more individuals than the ones you actually read? You selected in 'n.inds' argument", length(n.inds), "individuals but you only provided", length(my.inds), " individuals. Please select a number of individuals smaller or same size than the ones contained in 'my.inds' argument"))
       stop

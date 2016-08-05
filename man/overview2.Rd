@@ -3,16 +3,15 @@
 \title{Assesing several plants with an overview}
 
 \description{
-This function uses information from the FSA files read from \code{\link{storing.inds}} function and creates an overlapping plot to assess graphically the peaks of several plants in certain channel in order to create a panel for the next functions \code{\link{score.easy}}. The function contains several defaults in most of the arguments, please check arguments but in general.
+This function uses information from the FSA files read from \code{\link{storing.inds}} function and creates an overlapping plot to assess graphically the peaks of several plants in certain channel in order to create a panel for the scoring functions \code{\link{score.easy}}. The function contains several defaults in most of the arguments, please check arguments but in general you only need the first 4 arguments to create a panel.
 
-Please! once you have found the best parameters for the arguments to match your ladder using the \code{\link{detect.ladder}} function, please pass those values to this function since it will use the same function internally and your dna sizes will depend on that, please make sure the 'dev' argument is passed to the new functions.
 }
 \usage{
-overview2(my.inds, cols = 1, n.inds = NULL, xlim = NULL, 
-        ylim = NULL, ladder, channel.ladder = NULL, ploidy = 2, 
-        ci.upp = 1.96, ci.low = 1.96, dev = 50, method="iter", 
-        init.thresh=NULL, ladd.init.thresh=200, lwd=.25, warn=TRUE, 
-        min.panel=100, suggested=TRUE, env = parent.frame()) 
+overview2(my.inds, cols = 1, ladder, xlim = NULL, ylim = NULL, 
+        n.inds = NULL, channel.ladder = NULL, ploidy = 2, 
+        method="iter2", init.thresh=NULL, ladd.init.thresh=200, 
+        lwd=.25, warn=TRUE, min.panel=100, suggested=TRUE, 
+        env = parent.frame()) 
 
 }
 
@@ -21,23 +20,17 @@ overview2(my.inds, cols = 1, n.inds = NULL, xlim = NULL,
 
 \item{cols}{The channel/color you wish to analyze, usually 1 is blue, 2 is green, 3 is yellow, 4 is red and so on}
 
-\item{n.inds}{Vector specifying the plants to be scored}
+\item{ladder}{A vector containing the expected weights for the ladder peaks that will be found the using the \code{\link{find.ladder}} function}
 
 \item{xlim}{A vector containing the base pair interval where the plot should be drawn}
 
 \item{ylim}{A vector containing the intensity interval where the plot should be drawn}
 
-\item{ladder}{A vector containing the expected weights for the ladder peaks that will be found the using the \code{\link{find.ladder}} function}
+\item{n.inds}{Vector specifying the plants to be scored}
 
 \item{channel.ladder}{A scalar value indicating in which channel or color the ladder was read}
 
 \item{ploidy}{A scalar value indicating the ploidy of the organism to be scored}
-
-\item{ci.upp}{A scalar value indicating how many standar errors will be used to detect peaks when checking the height of the ladder peaks(upper bound). To be used in the \code{\link{find.ladder}} function}
-
-\item{ci.low}{A scalar value indicating how many standar errors will be used to detect peaks when checking the height of the ladder peaks(lower bound). To be used in the \code{\link{find.ladder}} function}
-
-\item{dev}{A scalar value indicating the number of indexes to be used as peak separation when deciding the ladder peaks, for more details check \code{\link{find.ladder}} function}
 
 \item{method}{An argument indicating one of the 2 methods available; "cor" makes all possible combination of peaks and searches exhaustive correlations to find the right peaks corresponsding to the expected DNA weights, or "ci" constructing confidence intervals to look for peaks meeting the conditions specified in the previous arguments}
 

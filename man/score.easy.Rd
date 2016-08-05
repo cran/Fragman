@@ -5,15 +5,14 @@
 \description{
 This function uses information from the fsa files read from \code{\link{storing.inds}} function and does the ssr calling in the channel specified and returns the index position, height and base pair position.
 
-Please! if using the confidence interval method ("ci"), which is NOT the default, once you have found the best parameters for the arguments to match your ladder using the \code{\link{detect.ladder}} function, please pass those values to this function since it will use the same function internally and your dna sizes will depend on that, so if that's the case make sure the 'dev' argument is passed to the new functions.
 }
 \usage{
-score.easy(my.inds, cols = 1, n.inds = NULL, panel=NULL, 
-          thresh=NULL, shift=0.8, ladder, channel.ladder=NULL, 
-          ploidy=2, ci.upp=1.96, ci.low=1.96, dev=50, left.cond=c(0.6,3), 
-          right.cond=0.35, warn=FALSE, window=0.5, init.thresh=200, 
-          ladd.init.thresh=200, method="iter", env = parent.frame(), 
-          plotting=TRUE, electro=TRUE, pref=3)
+score.easy(my.inds, cols = 1, n.inds = NULL, panel=NULL, shift=0.8,
+          ladder, channel.ladder=NULL, 
+          ploidy=2, left.cond=c(0.6,3), right.cond=0.35, warn=FALSE, 
+          window=0.5, init.thresh=200, ladd.init.thresh=200, 
+          method="iter2", env = parent.frame(), 
+          plotting=TRUE, electro=FALSE, pref=3)
 }
 
 \arguments{
@@ -25,37 +24,29 @@ score.easy(my.inds, cols = 1, n.inds = NULL, panel=NULL,
 
 \item{panel}{A vector containing the base pair interval where the peaks should be searched for}
 
-\item{thresh}{Only if method="ci". These are the values(number of standard errors) to be used to calculate the heights confidendence interval for ssr calling and be able to customize the thresholds when using the \code{\link{threshs}} function}
-
 \item{shift}{The number of base pairs to be used for discarding neighboring peaks to the tallest peaks, i.e. if 2 peaks are 0.3 bp together the smalles will be discarded}
 
 \item{ladder}{A vector containing the expected weights for the ladder peaks that will be found the using the \code{\link{find.ladder}} function}
 
 \item{channel.ladder}{A scalar value indicating in which channel or color the ladder was read}
 
-\item{ploidy}{A scalar value indicating the ploidy of the organism to be scored. TO BE IMPLEMENTED SOON. STILL NOT FUNCTIONAL.}
+\item{ploidy}{A scalar value indicating the ploidy of the organism to be scored to decide the maximum number of peaks the program should look for. TO BE IMPLEMENTED SOON. STILL NOT FUNCTIONAL.}
 
-\item{ci.upp}{A scalar value indicating how many standar errors will be used to detect peaks when checking the height of the ladder peaks(upper bound). To be used in the \code{\link{find.ladder}} function}
+\item{left.cond}{A percentage value (0-1) indicating when peaks to the left of the tallest peaks should be considered real based on the height, i.e. a value of 0.5 would mean that a close peak (to the left of the tallest peak) will be picked only if such peak is at least 50 percent as tall with respect to the tallest peak. The second argument is the number of base pair indicating when peaks to the left of the tallest peaks should be considered real based on the distance, i.e. a value of 3 would mean that a close peak (to the left of the tallest peak) will be picked only if such peak is at least 3 base pairs far away from the tallest peak}
 
-\item{ci.low}{A scalar value indicating how many standar errors will be used to detect peaks when checking the height of the ladder peaks(lower bound). To be used in the \code{\link{find.ladder}} function}
-
-\item{dev}{A scalar value indicating the number of indexes to be used as peak separation when deciding the ladder peaks, for more details check \code{\link{find.ladder}} function}
-
-\item{left.cond}{A percentage value indicating when peaks to the leaft of the tallest peaks should be considered real based on the height, i.e. a very close peak right before the tallest peak if smaller than the tallest (half the size of the tallest one will be real or not)}
-
-\item{right.cond}{A percentage value indicating when peaks to the right of the tallest peaks should be considered real based on the height, i.e. a very close peak right after the tallest peak if smaller than the tallest (half the size of the tallest one will be real or not)}
+\item{right.cond}{A percentage value (0-1) indicating when peaks to the right of the tallest peaks should be considered real based on the height, i.e. a value of 0.5 would mean that a close peak (to the right of the tallest peak) will be picked only if such peak is at least 50 percent as tall with respect to the tallest peak.}
 
 \item{warn}{A TRUE/FALSE value indicating if warnings should be provided when detecting the ladder}
 
-\item{window}{A value in base pairs indicating how much is the error for detecting a peak in a sample that was provided in the panelas a real peak}
+\item{window}{A value in base pairs indicating how much is the error for detecting a peak in a sample when providing a panel with expected peaks.}
 
-\item{init.thresh}{ An initial value of intensity to detect peaks. We recommend not to deal to much with unless you have highly controlled dna concentrations in your experiment}
+\item{init.thresh}{ An initial value of intensity to detect peaks. We recommend not to deal to much with it unless you have highly controlled dna concentrations in your experiment.}
 
-\item{ladd.init.thresh}{ A value of intensity to detect peaks in the internal use of the \code{\link{find.ladder}} function. We recommend not to deal to much with it unless you identified special situations with your ladder}
+\item{ladd.init.thresh}{ If samples were not sized using the info.ladder.attach function this value will be used to detect ladder peaks. Internally the program will use the \code{\link{find.ladder}} function. We recommend not to deal to much with it unless you identified special situations with your ladder}
 
-\item{method}{An argument indicating one of the 3 methods available; "cor" makes all possible combination of peaks and searches exhaustive correlations to find the right peaks corresponsding to the expected DNA weights, or "ci" constructing confidence intervals to look for peaks meeting the conditions specified in the previous arguments, "iter" an iterative procedure looking for the most likely peaks meeting your ladder expectation. Default is "iter". Passed to the find.ladder function working internally.}
+\item{method}{If samples were not sized using the info.ladder.attach function this method will be used to detect ladder peaks. An argument indicating one of the 3 methods available; "cor" makes all possible combination of peaks and searches exhaustive correlations to find the right peaks corresponsding to the expected DNA weights, or "ci" constructing confidence intervals to look for peaks meeting the conditions specified in the previous arguments, "iter2" an iterative procedure looking for the most likely peaks meeting your ladder expectation. Default is "iter2".}
 
-\item{env}{ this is used to detect the environment of the user and load the result in the same environment. Don't mess with it.}
+\item{env}{ this is used to detect the environment of the user and load the result in the same environment. Don't mess with it please.}
 
 \item{plotting}{ a TRUE/FALSE value indicating if the plots should be drawn or not. The default value is TRUE.}
 
@@ -64,7 +55,8 @@ score.easy(my.inds, cols = 1, n.inds = NULL, panel=NULL,
 \item{pref}{A scalar value indicating how many plots should be drawn in the output plotting. The dafault is 3.}
 }
 \details{
- Remember!! once you have found the best parameters for the arguments to match your ladder using the \code{\link{detect.ladder}} function, please pass those values to this function since it will use the same function internally and your dna sizes will depend on that, please make sure the 'dev' argument is passed to the new functions since could be very specific for each ladder.
+
+Method "ci" has been depreciated, currently the method "iter2" is the default and uses the ladder provided and observed peaks to match them using an iterative procedure based on least squares.
 }
 \value{
 If arguments are correct the function returns a plot and a list containing

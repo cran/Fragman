@@ -1,6 +1,7 @@
-ladder.info.attach <- function(stored, ladder, channel.ladder=NULL, ci.upp=1.96, ci.low=1.96, dev=50, warn= FALSE, method=NULL, ladd.init.thresh=NULL, env = parent.frame(), prog=TRUE, draw=TRUE, attempt=10){
+ladder.info.attach <- function(stored, ladder, channel.ladder=NULL, method=NULL, ladd.init.thresh=NULL, env = parent.frame(), prog=TRUE, draw=TRUE, attempt=10){
   all.names <- names(stored)
   
+  ci.upp=1.96; ci.low=1.96; dev=50; warn= FALSE
   if(is.null(channel.ladder)){
     channel.ladder <- dim(stored[[1]])[2]
   }else{channel.ladder <- channel.ladder}
@@ -26,10 +27,13 @@ ladder.info.attach <- function(stored, ladder, channel.ladder=NULL, ci.upp=1.96,
   }
   env$list.data.covarrubias <- res
   
+  cat("\nSizing process complete. Information stored in the environment for posterior functions.\n")
+  
   correlations <- unlist(lapply(res, function(x){x$corr}))
   if(length(which(correlations < .92)) >0){
-    cat(paste("\nWe did not find a good ladder in",length(which(correlations < .92)),"sample(s). If you wish to correct it you can try one of the following:\n"))
-    cat("\nTHE POSSIBLE REASONS FOR NOT FINDING YOUR LADDER IN SOME SAMPLES ARE: \n\na) The first peaks of your ladder are in a very noisy area \n     Solution-- try discarding some initial values of your ladder, start one by one \nb) The value of ladd.init.thresh might be too low, making noisy peaks too abundant \n     Solution-- make sure your initial value 'init.thresh' is not below 100 RFUs \nc) MOST IMPORTANT! you can correct manually the bad samples using the 'ladder.corrector()' function providing the names of the bad samples, your ladder, and the information from the 'storing.inds' function, type ?ladder.corrector\nd) You can continue your analysis without worrying for those samples \n\nNames of the bad sample(s):\n")
+    cat(paste("\nWe did not find a good ladder in",length(which(correlations < .92)),"sample(s). \nIf you wish to correct it you can try one of the following:\n"))
+    cat("\na) The value of ladd.init.thresh might be too low, making noisy peaks too be abundant \n     Solution-- make sure your initial value 'init.thresh' is not below 200 RFUs\nb) You can continue your analysis without worrying for those samples or removing. Identify them as:\n     corro <- unlist(lapply(list.data.covarrubias, function(x){x$corr}))\n     (bad <- which(corro < .9999))\nc) MOST IMPORTANT! you can correct manually the bad samples using the 'ladder.corrector()' function providing the names of the bad samples (below), your ladder, and the information from the 'storing.inds' function, type ?ladder.corrector\n\nNames of the bad sample(s):\n")
+    # a) The first peaks of your ladder are in a very noisy area \n     Solution-- try discarding some initial values of your ladder, start one by one \n
     #print(all.names[which(correlations < .92)])
    # if(length(which(correlations < .92)) > (length(correlations)*.05)){
     #  ww <- which(correlations < .92)[1]
@@ -66,7 +70,7 @@ ladder.info.attach <- function(stored, ladder, channel.ladder=NULL, ci.upp=1.96,
     stop("This package requires R 2.1 or later")
   assign(".Fragman.home", file.path(library, pkg),
          pos=match("package:Fragman", search()))
-  Fragman.version = "1.0.5 (2016-07-01)"
+  Fragman.version = "1.0.6 (2016-08-01)"
   assign(".Fragman.version", Fragman.version, pos=match("package:Fragman", search()))
   if(interactive())
   {

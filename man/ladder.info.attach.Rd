@@ -10,8 +10,8 @@ NOTE: THE STEP OF MATCHING THE LADDER WITH YOUR SAMPLES USING THE `ladder.info.a
 }
 \usage{
 ladder.info.attach(stored, ladder, channel.ladder=NULL, 
-                  ci.upp=1.96, ci.low=1.96, dev=50, warn= FALSE, method=NULL, 
-                  ladd.init.thresh=NULL, env = parent.frame(), prog=TRUE, 
+                  method=NULL, ladd.init.thresh=NULL, 
+                  env = parent.frame(), prog=TRUE, 
                   draw=TRUE, attempt=10)
 }
 
@@ -22,15 +22,7 @@ ladder.info.attach(stored, ladder, channel.ladder=NULL,
 
 \item{channel.ladder}{A scalar value indicating in which channel or color the ladder was read}
 
-\item{ci.upp}{A scalar value indicating how many standar errors will be used to detect peaks when checking the height of the ladder peaks(upper bound). To be used in the \code{\link{find.ladder}} function.}
-
-\item{ci.low}{A scalar value indicating how many standar errors will be used to detect peaks when checking the height of the ladder peaks(lower bound). To be used in the 'find.ladder' function}
-
-\item{dev}{A scalar value indicating the number of indexes to be used as peak separation when deciding the ladder peaks. Some ladders contain dna fragments of very closed weights and modifying this parameter helps to detect them correctly}
-
-\item{warn}{A TRUE/FALSE value indicating if warnings should be provided when detecting the ladder}
-
-\item{method}{An argument indicating one of the methods available; "iter" makes an iterative procedure to find the ladder, "iter2" the same but backwards, "cor" makes all possible combination of peaks and searches exhaustive correlations to find the right peaks corresponsding to the expected DNA weights, or "ci" constructing confidence intervals to look for peaks meeting the conditions specified in the previous arguments. The default allows the program to pick among "iter" and "iter2".}
+\item{method}{An argument indicating one of the methods available; "iter" makes an iterative procedure to find the ladder, "iter2" the same but backwards, "cor" makes all possible combination of peaks and searches exhaustive correlations to find the right peaks corresponsding to the expected DNA weights, or "ci" constructing confidence intervals to look for peaks meeting the conditions specified in the previous arguments. The default allows the program to pick among "iter" and "iter2". Older methods have been depreciated.}
 
 \item{ladd.init.thresh}{ A value of intensity to detect peaks in the internal use of the \code{\link{find.ladder}} function. We recommend not to deal to much with it unless you identified special situations with your ladder}
 
@@ -40,14 +32,12 @@ ladder.info.attach(stored, ladder, channel.ladder=NULL,
 
 \item{draw}{ A TRUE/FALSE value indicating if a plot showing the peaks matched with your ladder should be drawn. The dafault value is FALSE to avoid extra delay. Please feel free to set it equal TRUE if you prefer to assess the sizing process.}
 
-\item{attempt}{A scalar value indicating how many attempts should be made to find the real ladder peaks. By default is 7 attempts, which means that will try to build the model assuming that the first peak found in the ladder is the corresponding first peak of the expected ladder, then moves to the 2nd peak until the 7th and the seven models are compared picking the most likely model based on the R2 value for each of the models.}
+\item{attempt}{A scalar value indicating how many attempts should be made to find the real ladder peaks when using the "iter" and "iter2" methods. By default is 7 attempts, which means that will try to build the model assuming that the first peak found in the ladder is the corresponding first peak of the expected ladder, then moves to the 2nd peak until the 7th and the seven models are compared picking the most likely model based on the R2 value for each of the models.}
 
 }
 \details{
-The peaks are detected by default using a correlation method but the user can use confidence intervals if desired.
 
-
-Please! if using the confidence interval method ("ci"), which is NOT the default, once you have found the best parameters for the arguments to match your ladder using the \code{\link{detect.ladder}} function, please pass those values to all the posterior functions, such as the 'dev' argument.
+Method "ci" has been depreciated, currently the method "iter2" is the default and uses the ladder provided and observed peaks to match them using an iterative procedure based on least squares.
 
 }
 \value{
