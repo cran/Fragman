@@ -1,4 +1,4 @@
-f0fc3e19f874ce659434ecfa22cf4eff *DESCRIPTION
+b14c750a7fa7286b88fd2e9befc01521 *DESCRIPTION
 8309a0c48bb66f96a7e29c11a61d1ae9 *NAMESPACE
 cf2efcc040deaeb6c212fd524f54f9e3 *R/Fragma-internal.R
 32ed31a10c4cbe1441ea3a89af7797d1 *R/arrange.jm.R
@@ -11,7 +11,7 @@ f07bdb180833d7db2ade3b6b8e0f0201 *R/detect.ladder.R
 0375245230a9da177e08479c2d6bcc05 *R/homogenize.to.parentals.R
 1513741429b138612e5599ad9881e13a *R/jm.conv.R
 04859a8fdd4497db4768db6bc78211a4 *R/ladder.corrector.R
-ba67fb3570d821c9ac81973c0cfa1a0b *R/ladder.info.attach.R
+61e4049755349be7bffa98b9bc62d37e *R/ladder.info.attach.R
 4921326618d06326089c3707723f6232 *R/lapply_pb.R
 82ecfd7e9f19d90b6cad339558801c3a *R/letter.to.jm.R
 1e843c3e3475b73283b7b38bb21131ed *R/num.to.lett.R
@@ -41,7 +41,7 @@ ad262142871a3976e58144737406d352 *man/homo.panel.Rd
 afa50e5431e77eaac03bce03c1da4f02 *man/homogenize.to.parentals.Rd
 0ee57cbd83fc3ac2cb4b94db601f4bcc *man/jm.conv.Rd
 1d270b35f3dee52215dbecaeb81e2795 *man/ladder.corrector.Rd
-db9d7b7463f852de3f89a9dfc670057e *man/ladder.info.attach.Rd
+d6c27b418cf188715561d4d0ab25a69e *man/ladder.info.attach.Rd
 62e9bb48a68d75d7b93c3e856020d41f *man/lapply_pb.Rd
 f76066a3e2ae1062dcfe0d1da789ff9a *man/letter.to.jm.Rd
 078a98fde348fd03dc8c564956542f82 *man/my.plants.Rd

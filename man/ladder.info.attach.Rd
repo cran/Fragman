@@ -10,7 +10,7 @@ NOTE: THE STEP OF MATCHING THE LADDER WITH YOUR SAMPLES USING THE `ladder.info.a
 }
 \usage{
 ladder.info.attach(stored, ladder, channel.ladder=NULL, 
-                  method=NULL, ladd.init.thresh=NULL, 
+                  method="iter2", ladd.init.thresh=NULL, 
                   env = parent.frame(), prog=TRUE, 
                   draw=TRUE, attempt=10)
 }

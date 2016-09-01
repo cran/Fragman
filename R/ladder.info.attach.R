@@ -1,4 +1,4 @@
-ladder.info.attach <- function(stored, ladder, channel.ladder=NULL, method=NULL, ladd.init.thresh=NULL, env = parent.frame(), prog=TRUE, draw=TRUE, attempt=10){
+ladder.info.attach <- function(stored, ladder, channel.ladder=NULL, method="iter2", ladd.init.thresh=NULL, env = parent.frame(), prog=TRUE, draw=TRUE, attempt=10){
   all.names <- names(stored)
   
   ci.upp=1.96; ci.low=1.96; dev=50; warn= FALSE
@@ -70,7 +70,7 @@ ladder.info.attach <- function(stored, ladder, channel.ladder=NULL, method=NULL,
     stop("This package requires R 2.1 or later")
   assign(".Fragman.home", file.path(library, pkg),
          pos=match("package:Fragman", search()))
-  Fragman.version = "1.0.6 (2016-08-01)"
+  Fragman.version = "1.0.7 (2016-09-01)"
   assign(".Fragman.version", Fragman.version, pos=match("package:Fragman", search()))
   if(interactive())
   {
