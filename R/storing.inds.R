@@ -43,10 +43,10 @@ storing.inds <-
         lens <- lapply(fsaFile$Data, length)
         aaa <- table(unlist(lens)) # length of vectors in data
         #### CONDITION IF CHANNELS WAS NOT SPECIFIED
-        if(is.null(channels)){
-          channels <- as.vector(aaa[which(as.numeric(names(aaa)) > 1000)])
+        if(is.null(channels)){ # find number of channels
+          channels <- as.vector(aaa[which(as.numeric(names(aaa)) > 1000 & as.numeric(names(aaa)) < 20000)])
         }
-        real.len <- as.numeric(names(aaa)[which(aaa == channels & as.numeric(names(aaa)) > 1000 )]) # length of the data elements that meet the requirement to be a data file
+        real.len <- as.numeric(names(aaa)[which(aaa == channels & as.numeric(names(aaa)) > 1000 & as.numeric(names(aaa)) < 20000 )]) # length of the data elements that meet the requirement to be a data file
         v <- as.vector(which(unlist(lens) == real.len)) # length to find, elements storing the data found
         reads<-list(NA) # to store info
         for(j in 1:channels){ # for each channel

@@ -10,7 +10,8 @@ This function uses information from the FSA files read from \code{\link{storing.
 overview(my.inds, cols = 1, n.inds = c(1:length(my.inds)), 
         xlimi=c(min(ladder),max(ladder)), ladder, channel.ladder=dim(my.inds[[1]])[2], 
         ploidy=2, ci.upp=1.96, ci.low=1.96, dev=50, method="iter", 
-        init.thresh=200, ladd.init.thresh=200, warn=TRUE, env = parent.frame())
+        init.thresh=200, ladd.init.thresh=200, warn=TRUE, my.palette=NULL,
+        env = parent.frame())
 }
 
 \arguments{
@@ -41,6 +42,8 @@ overview(my.inds, cols = 1, n.inds = c(1:length(my.inds)),
 \item{ladd.init.thresh}{ A value of intensity to detect peaks in the internal use of the \code{\link{find.ladder}} function. We recommend not to deal to much with it unless you identified special situations with your ladder}
 
 \item{warn}{A TRUE/FALSE value indicating if warnings should be provided when detecting the ladder}
+
+\item{my.palette}{A character vector with the colors to be used when drawing the RFU plots. If NULL it will use the programmed palette.}
 
 \item{env}{ this is used to detect the environment of the user and load the result in the same environment.}
 }

@@ -1,6 +1,6 @@
 overview2 <- function (my.inds, cols = 1, ladder, xlim = NULL, ylim = NULL, n.inds = NULL, channel.ladder = NULL, ploidy = 2,  
                         method="iter2", init.thresh=NULL, ladd.init.thresh=200, lwd=.25, warn=TRUE, min.panel=100, 
-                       suggested=TRUE, env = parent.frame()) 
+                       suggested=TRUE, env = parent.frame(), my.palette=NULL) 
 {
   ci.upp = 1.96; ci.low = 1.96;dev = 50
   oldw <- getOption("warn")
@@ -47,8 +47,13 @@ overview2 <- function (my.inds, cols = 1, ladder, xlim = NULL, ylim = NULL, n.in
   }
   my.inds <- my.inds2
   ncfp <- c("COL1", "COL2", "COL3", "COL4", "COL5")
-  cfp <- c("cornflowerblue", "chartreuse4", "gold2", "red", 
-           "orange", "purple")
+  if(!is.null(my.palette)){
+    cfp <- rep(my.palette,100)
+  }else{
+    cfp <- c("cornflowerblue", "chartreuse4", "gold2", "red", 
+             "orange", "purple")
+  }
+
   col.list <- list(NA)
   att1 <- numeric()
   ############################################
@@ -80,7 +85,7 @@ overview2 <- function (my.inds, cols = 1, ladder, xlim = NULL, ylim = NULL, n.in
     newyy <- my.inds2[[h]][, cols]
     new.whole.data[[h]] <- list(xx = newxx, yy = newyy)
     ################################
-    setTxtProgressBar(pb, (count/tot)*.5)### keep filling the progress bar
+    setTxtProgressBar(pb, (count/tot))### keep filling the progress bar
     ################################
   }
   common <- lapply(list.data, function(x, xlim) {
@@ -152,7 +157,7 @@ overview2 <- function (my.inds, cols = 1, ladder, xlim = NULL, ylim = NULL, n.in
   axis(2, at = seq(0, tot.heii, by = 500), labels = seq(0, tot.heii, by = 500), las=1, cex.axis=0.4)
   if(length(n.inds) == 1){
     count <- count + 50
-    setTxtProgressBar(pb, (count/tot)*.5)
+    setTxtProgressBar(pb, (count/tot))
   }else{count <- count + 1}
   
   #b <- sum(unlist(heii)[1])
@@ -172,12 +177,14 @@ overview2 <- function (my.inds, cols = 1, ladder, xlim = NULL, ylim = NULL, n.in
       #legend(x = xlim[1], y = b, legend = paste("Plant", 
       #                                          nn[i]), bty = "n")
       ################################
-      setTxtProgressBar(pb, (count/tot)*.5)### keep filling the progress bar
+      setTxtProgressBar(pb, (count/tot))### keep filling the progress bar
       ################################
     }
+    #close(pb)
   }
   legend("topright", legend="Peaks suggested", pch=20, col="red", bty="n", cex=0.75)
   
+  #setTxtProgressBar(pb, (tot/tot)*.5)
   
   options(warn = oldw)
   close(pb) # close the progress bar

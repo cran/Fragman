@@ -67,7 +67,7 @@ my.plants <- my.plants[1:2]
 my.ladder <- c(50, 75, 100, 125, 129, 150, 175, 200, 225, 250, 275, 300, 325, 350, 375)
 
 ### match your ladder to the peaks and attach the information 
-### to the R environment using the function: (DO ONLY ONCE PER BATCH)
+### to the R environment using the following function: (DO ONLY ONCE PER BATCH)
 ### CRITICAL STEP!!
 
 ladder.info.attach(stored=my.plants, ladder=my.ladder)

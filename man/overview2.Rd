@@ -11,7 +11,7 @@ overview2(my.inds, cols = 1, ladder, xlim = NULL, ylim = NULL,
         n.inds = NULL, channel.ladder = NULL, ploidy = 2, 
         method="iter2", init.thresh=NULL, ladd.init.thresh=200, 
         lwd=.25, warn=TRUE, min.panel=100, suggested=TRUE, 
-        env = parent.frame()) 
+        env = parent.frame(), my.palette=NULL) 
 
 }
 
@@ -47,6 +47,9 @@ overview2(my.inds, cols = 1, ladder, xlim = NULL, ylim = NULL,
 \item{suggested}{ a TRUE/FALSE value statement declaring if you want the program to return suggested peaks for your panel. The default is TRUE but can be anoying if the program draws too many peaks.}
 
 \item{env}{ this is used to detect the environment of the user and load the result in the same environment.}
+
+\item{my.palette}{A character vector with the colors to be used when drawing the RFU plots. If NULL it will use the programmed palette.}
+
 }
 \details{
 No major details.
@@ -79,5 +82,14 @@ overview2(my.inds=my.plants, cols = 1, ladder=my.ladder, lwd=1)
 # my.panel <- locator(type="p", pch=20, col="red")$x
 # to click over the peaks and get the sizes in base pairs
 # when you are done make sure you press the "Esc" key, do not push the stop button
+
+## to look at many channels at the same time you 
+## can use the par(new=TRUE) and a for loop
+
+for(u in 1:4){
+  overview2(my.inds=my.plants, cols = u, ladder=my.ladder, lwd=1,
+            xlim=c(240,350), ylim=c(0,30000))
+  par(new=TRUE)
+}
 
 }

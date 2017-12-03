@@ -17,16 +17,18 @@ pullup <- function(mati, plotting=FALSE, channel=4){
   vv2 <- vv1+1; vv2 <- vv2[-length(vv2)]; vv2 <- c(1,vv2)
   regions <- apply(data.frame(cbind(vv2,vv1)), 1, function(x,pos){y <- pos[x[1]:x[2]]; return(y)}, peak.all.cols$pos)
   #########################
-  for(i in 1:length(regions)){
-    # find which is the maximum for that region in all the channels
-    maxis <- apply(mati[,-channel], 2, function(x, regi){max(x[regi])}, regi=regions[[i]])
-    ch <- c(1:length(maxis))
-    wiii <- which(maxis == max(maxis)) # channel where this peak is real
-    rest <- ch[-wiii] # channels where the peak is not real
-    # adjust by decreasing 25% the intensity of the real channel
-    decrease <- regions[[i]][1]:(regions[[i]][length(regions[[i]])])
-    mati[decrease,rest] <- mati[decrease,rest] - (mati[decrease,wiii]*.3)
-  }
+  #if(!is.na(regions)){
+    for(i in 1:length(regions)){
+      # find which is the maximum for that region in all the channels
+      maxis <- apply(mati[,-channel], 2, function(x, regi){max(x[regi])}, regi=regions[[i]])
+      ch <- c(1:length(maxis))
+      wiii <- which(maxis == max(maxis)) # channel where this peak is real
+      rest <- ch[-wiii] # channels where the peak is not real
+      # adjust by decreasing 25% the intensity of the real channel
+      decrease <- regions[[i]][1]:(regions[[i]][length(regions[[i]])])
+      mati[decrease,rest] <- mati[decrease,rest] - (mati[decrease,wiii]*.3)
+    }
+  #}
   
   #all.inds.mats2 <- apply(mati, 2, function(x){x[which(x < 0)] <- 0; return(x)}) 
   all.inds.mats2 <- apply(mati, 2, function(x){x[which(x < 0)] <- x[which(x < 0)]; return(x)}) # THIS PART SEEMS TO BE IMPORTANT FOR DONT GETTING DOUBLE LINES
@@ -45,6 +47,6 @@ pullup <- function(mati, plotting=FALSE, channel=4){
     }
   }
   layout(matrix(1,1,1))
-
+  
   return(all.inds.mats2)
 }

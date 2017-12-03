@@ -1,5 +1,8 @@
-score.easy <-
-  function (my.inds, cols = 1, n.inds = NULL, panel=NULL, shift=0.8, ladder, channel.ladder=NULL, ploidy=2, left.cond=c(0.6,3), right.cond=0.35, warn=FALSE, window=0.5, init.thresh=200, ladd.init.thresh=200, method="iter2", env = parent.frame(), plotting=TRUE, electro=FALSE, pref=3) 
+score.easy <- function (my.inds, cols = 1, n.inds = NULL, panel=NULL, shift=0.8, 
+                        ladder, channel.ladder=NULL, ploidy=2, left.cond=c(0.6,3), 
+                        right.cond=0.35, warn=FALSE, window=0.5, init.thresh=200, 
+                        ladd.init.thresh=200, method="iter2", env = parent.frame(), 
+                        my.palette=NULL,plotting=TRUE, electro=FALSE, pref=3) 
   {
     oldw <- getOption("warn")
     options(warn = -1)
@@ -62,7 +65,12 @@ score.easy <-
     #  require("zoom")
     #}
     ncfp <- c("COLOR 1", "COLOR 2", "COLOR 3", "COLOR 4", "COLOR 5", "COLOR 6")
-    cfp <- c("cornflowerblue", "chartreuse4", "gold2", "red", "orange", "purple")
+    if(!is.null(my.palette)){
+      cfp <- rep(my.palette,100)
+    }else{
+      cfp <- c("cornflowerblue", "chartreuse4", "gold2", "red", "orange", "purple")
+    }
+    
     col.list <- list(NA)
     att1 <- numeric()
     #####################################################################################################

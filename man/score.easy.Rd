@@ -11,8 +11,8 @@ score.easy(my.inds, cols = 1, n.inds = NULL, panel=NULL, shift=0.8,
           ladder, channel.ladder=NULL, 
           ploidy=2, left.cond=c(0.6,3), right.cond=0.35, warn=FALSE, 
           window=0.5, init.thresh=200, ladd.init.thresh=200, 
-          method="iter2", env = parent.frame(), 
-          plotting=TRUE, electro=FALSE, pref=3)
+          method="iter2", env = parent.frame(), my.palette=NULL,
+          plotting=TRUE,  electro=FALSE, pref=3)
 }
 
 \arguments{
@@ -47,6 +47,8 @@ score.easy(my.inds, cols = 1, n.inds = NULL, panel=NULL, shift=0.8,
 \item{method}{If samples were not sized using the info.ladder.attach function this method will be used to detect ladder peaks. An argument indicating one of the 3 methods available; "cor" makes all possible combination of peaks and searches exhaustive correlations to find the right peaks corresponsding to the expected DNA weights, or "ci" constructing confidence intervals to look for peaks meeting the conditions specified in the previous arguments, "iter2" an iterative procedure looking for the most likely peaks meeting your ladder expectation. Default is "iter2".}
 
 \item{env}{ this is used to detect the environment of the user and load the result in the same environment. Don't mess with it please.}
+
+\item{my.palette}{A character vector with the colors to be used when drawing the RFU plots. If NULL it will use the programmed palette.}
 
 \item{plotting}{ a TRUE/FALSE value indicating if the plots should be drawn or not. The default value is TRUE.}
 
