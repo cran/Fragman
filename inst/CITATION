@@ -1,4 +1,4 @@
-citHeader("To cite the Fragma package in publications use:")
+citHeader("To cite the Fragman package in publications use:")
 
 citEntry(entry="Article",
 	title="Fragman: An R package for fragment analysis",

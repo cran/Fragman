@@ -8,7 +8,7 @@ This function was designed to correct manually samples that could not be correct
 }
 \usage{
 ladder.corrector(stored, to.correct, ladder, 
-      thresh=200, env = parent.frame())
+      thresh=200, env = parent.frame(),...)
 }
 
 \arguments{
@@ -21,6 +21,8 @@ ladder.corrector(stored, to.correct, ladder,
 \item{thresh}{A scalar value indicating the minimum value in RFUs to look for peaks to match the user-selected peaks with the program recognized peaks.}
 
 \item{env}{ this is used to detect the environment of the user and load the result in the same environment.}
+
+\item{\dots}{Further arguments to be passed}
 
 }
 \details{

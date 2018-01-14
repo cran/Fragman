@@ -8,9 +8,8 @@ This function takes a vector of color heights/intensities from the fragment anal
 Please! if using the confidence interval method ("ci"), which is not the default, once you have found the best parameters for the arguments to match your ladder using this function, please pass those values to all the posterior functions, please make sure the 'dev' argument is passed to the new functions.
 }
 \usage{
-find.ladder(x, ladder, ci.upp=1.96, ci.low=1.96, 
-            draw=TRUE, dev=50, warn=TRUE, init.thresh=NULL, 
-            sep.index=8, method=NULL, avoid=1000, who="sample", 
+find.ladder(x, ladder, draw=TRUE, dev=50, warn=TRUE, init.thresh=NULL, 
+            sep.index=8, method=NULL, reducing=NULL, who="sample", 
             attempt=10, cex.title=0.8)
 }
 
@@ -18,10 +17,6 @@ find.ladder(x, ladder, ci.upp=1.96, ci.low=1.96,
  \item{x}{Vector of heights from the ladder channel. See example to see how to access to it.}
 
 \item{ladder}{Vector containing the expected weights of the dna fragments of the ladder in use}
-
-\item{ci.upp}{A scalar value indicating how many standar errors will be used to detect peaks when checking the height of the ladder peaks(upper bound). To be used in the \code{\link{find.ladder}} function}
-
-\item{ci.low}{A scalar value indicating how many standar errors will be used to detect peaks when checking the height of the ladder peaks(lower bound). To be used in the 'find.ladder' function}
 
 \item{draw}{A TRUE/FALSE value indicating if the plot for the ladder found should be printed or not}
 
@@ -39,7 +34,7 @@ find.ladder(x, ladder, ci.upp=1.96, ci.low=1.96,
 
 \item{attempt}{A scalar value indicating how many attempts should be made to find the real ladder peaks. By default is 7 attempts, which means that will try to build the model assuming that the first peak found in the ladder is the corresponding first peak of the expected ladder, then moves to the 2nd peak until the 7th and the seven models are compared picking the most likely model based on the R2 value for each of the models.}
 
-\item{avoid}{A scalar value indicating how many indexes should be avoided when the method of correlation fails to find peaks and a random sample will be drawn from the existing peaks. The default is 1500 indexes which will samples peaks avoiding the first 1500 indexes which is usually related to noisy area in some ladders.}
+\item{reducing}{A vector of values to reduce the search of peaks to certain indexes in the x axis. Default is NULL so it looks for all peaks for matching the ladder.}
 
 \item{cex.title}{A scalar value indicating how big the title (name of the sample) in the plot should be.}
 

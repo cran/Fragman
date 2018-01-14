@@ -1,9 +1,19 @@
-export(arrange.jm, best.layout, big.peaks.col, detect.ladder, find.ladder, get.scores, homo.panel, homogenize.to.parentals, jm.conv, ladder.info.attach, ladder.corrector, lapply_pb, letter.to.jm, num.to.lett, overview, overview2, pullup, read.abif, reals, score.easy, saturate, separate, storing.inds, threshs, transfft, transp)
+export(arrange.jm, best.layout, big.peaks.col, detect.ladder, find.ladder, 
+       get.scores, homo.panel, homogenize.to.parentals, jm.conv, ladder.info.attach, 
+       ladder.corrector, lapply_pb, letter.to.jm, num.to.lett, overview, overview2, 
+       pullup, read.abif, reals, score.markers, saturate, separate, storing.inds, 
+       threshs, transfft, transp)
 
-importFrom("grDevices", "col2rgb", "colorRampPalette", "rgb")
+importFrom("grDevices", "col2rgb", "colorRampPalette", "rgb", "rainbow","boxplot.stats")
   importFrom("graphics", "abline", "axis", "image", "layout", "legend",
              "lines", "plot", "points", "rect", "text", "locator",
              "par","grid")
   importFrom("stats", "cor", "fft", "lm", "median", "na.omit", "predict",
              "rnorm", "sd", "cov", "quantile")
   importFrom("utils", "combn", "setTxtProgressBar", "txtProgressBar","read.table")
+  
+
+## for s3 methods
+export(plot.fsa_stored)
+
+S3method(plot, fsa_stored)

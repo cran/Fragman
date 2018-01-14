@@ -3,7 +3,7 @@
 \title{Ladder detection and attachment to R environment}
 
 \description{
-This function uses the information stored by the \code{\link{storing.inds}} function and a vector specifying the ladder/standard and finds the real peaks corresponding to the expected weights. The user may use this function to be able to load the ladder information in the global environment of R, so when using the \code{\link{overview}} or \code{\link{score.easy}} functions calculations will be performed faster, if the function is not used the program will calculate the ladder information each time \code{\link{overview}} or \code{\link{score.easy}} functions are used. 
+This function uses the information stored by the \code{\link{storing.inds}} function and a vector specifying the ladder/standard and finds the real peaks corresponding to the expected weights. The user may use this function to be able to load the ladder information in the global environment of R, so when using the \code{\link{overview}} or \code{\link{score.markers}} functions calculations will be performed faster, if the function is not used the program will calculate the ladder information each time \code{\link{overview}} or \code{\link{score.markers}} functions are used. 
 
 NOTE: THE STEP OF MATCHING THE LADDER WITH YOUR SAMPLES USING THE `ladder.info.attach` FUNCTION IS CRITICAL. IF YOU HAVE ANY PROBLEM TRY MODIFYING THE ARGUMENT 'method', WITH THE 2 MOST EFFECTIVE METHODS method="iter" OR method="iter2"
 

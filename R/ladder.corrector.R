@@ -1,4 +1,5 @@
-ladder.corrector <- function(stored, to.correct, ladder, thresh=200, env = parent.frame()){
+ladder.corrector <- function(stored, to.correct, ladder, thresh=200, 
+                             env = parent.frame(), ...){
   list.data <- env$list.data.covarrubias
   
   vvv <- which(names(list.data) %in% to.correct)
@@ -11,38 +12,55 @@ ladder.corrector <- function(stored, to.correct, ladder, thresh=200, env = paren
     www <- vvv[j]
     x <- stored[[www]][,chan]
     roxy <- big.peaks.col(x, thresh)
-    ylimi <- median(sort(roxy$hei, decreasing=TRUE)) 
+    
+    outlier_values <- boxplot.stats(roxy$hei)$out
+    if(length(outlier_values)>0){
+      ylimi <- max(sort(roxy$hei[which(roxy$hei != outlier_values)], decreasing=TRUE)) 
+    }else{
+      ylimi <- max(sort(roxy$hei, decreasing=TRUE)) 
+    }
         
     layout(matrix(1,1,1))
-    plot(x, type="l", ylim=c(0,ylimi), main=paste("Provitional plot for\n",to.correct[j]), las=2, cex.main=.8);grid()
+    plot(x, type="l", ylim=c(0,ylimi), main=paste("Provitional plot for\n",to.correct[j]), las=2, cex.main=.8, ...);grid()
     abline(h=c(20,50,100,200), col="red",lty=3)
     axis(2, at=c(20,50,100,200),labels = c(20,50,100,200), las=1, col.ticks ="red")
-    cat("\nPlease specify if you prefer manual or automatic scoring. \nType the word 'manual' or 'autom' (autom is preferred):\n")
+    cat("\nPlease specify if you prefer manual or automatic scoring. \nType the character 'm' or 'a' (autom is preferred):\n")
     type <- readline()
     type <- gsub("\'","",type) # in case the user gave character
     type <- gsub("\"","",type)
     
-    basicc <- c("autom","manual")
+    basicc <- c("a","m")
     choco <- length(intersect(basicc,type))
     while((choco)==0){
-      cat("\nType the word manual or autom:\n")
+      cat("\nType the character 'm' or 'a':\n")
       type <- readline()
       type <- gsub("\'","",type) # in case the user gave character
       type <- gsub("\"","",type)
       choco <- length(intersect(basicc,type))
     }
     
-    if(type=="autom"){
+    if(type=="a"){
       cat("Please provide the threshold value for the ladder in RFUs (number):")
       hisladder <- as.numeric(readline())
-      provi <- find.ladder(x, ladder=ladder,init.thresh = hisladder, draw = FALSE, method="iter2")
+      cat("Should we reduce the search in the x-axis to certain peaks?.If none type the 'Esc' key\notherwise click over the plot where where the start is (one click) and \nthe end (another click), and finally type the 'Esc' key")
+      #tolook <- as.numeric(readline())
+      mine <- locator(type="p", pch=20, col="red")$x
+      if(is.null(mine)){
+        reducing <- NULL
+      }else{
+        tolook <- round(min(mine)):round(max(mine))
+        reducing <- tolook
+      }
+      
+      provi <- find.ladder(x, ladder=ladder,init.thresh = hisladder, 
+                           draw = FALSE, method="iter2", reducing = reducing)
       abline(v=provi$pos, col="red",lty=3)
       list.data[[www]]$pos <- provi$pos
       list.data[[www]]$hei <- provi$hei
       list.data[[www]]$wei <- provi$wei
       list.data[[www]]$corr <- provi$corr
       cat("\nSample adjusted.")
-    }else if(type=="manual"){
+    }else if(type=="m"){
       cat("Please provide the threshold value for the ladder in RFUs (number):")
       hisladder <- as.numeric(readline())
       x <- stored[[www]][,chan]

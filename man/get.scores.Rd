@@ -34,7 +34,7 @@ Ben Hui Liu. 1998. Statistical Genomics. CRC Press LLC. ISBN 0-8493-3166-8.
 
 \examples{
 
-## here "a" is the ouptput of `score.easy` function
+## here "a" is a similar ouptput to the `score.easy` function
 par1 <- list(pos=c(3100, 3240), hei=c(22917,20563), wei=c(202,212))
 par2 <- list(pos=c(3100, 3240), hei=c(22917,20563), wei=c(202,214))
 a <- list(i1=par1, i2=par2)

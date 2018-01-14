@@ -1,7 +1,10 @@
-ladder.info.attach <- function(stored, ladder, channel.ladder=NULL, method="iter2", ladd.init.thresh=NULL, env = parent.frame(), prog=TRUE, draw=TRUE, attempt=10){
+ladder.info.attach <- function(stored, ladder, 
+                               channel.ladder=NULL, method="iter2", 
+                               ladd.init.thresh=NULL, env = parent.frame(), 
+                               prog=TRUE, draw=TRUE, attempt=10){
   all.names <- names(stored)
   
-  ci.upp=1.96; ci.low=1.96; dev=50; warn= FALSE
+  dev=50; warn= FALSE
   if(is.null(channel.ladder)){
     channel.ladder <- dim(stored[[1]])[2]
   }else{channel.ladder <- channel.ladder}
@@ -20,14 +23,14 @@ ladder.info.attach <- function(stored, ladder, channel.ladder=NULL, method="iter
   }
   
   if(prog==TRUE){
-    res <- lapply_pb(list.ladders, find.ladder, ladder=ladder, ci.upp=ci.upp, ci.low=ci.low, dev=dev, warn=warn, method=method,init.thresh=ladd.init.thresh, draw=draw, attempt=attempt)
+    res <- lapply_pb(list.ladders, find.ladder, init.thresh=ladd.init.thresh, ladder=ladder, dev=dev, warn=warn, method=method, draw=draw, attempt=attempt)
   }
   if(prog==FALSE){
-    res <- lapply(list.ladders, find.ladder, ladder=ladder, ci.upp=ci.upp, ci.low=ci.low, dev=dev, warn=warn,  method=method,init.thresh=ladd.init.thresh, draw=draw, attempt=attempt)
+    res <- lapply(list.ladders, find.ladder, ladder=ladder, dev=dev, warn=warn,  method=method,init.thresh=ladd.init.thresh, draw=draw, attempt=attempt)
   }
   env$list.data.covarrubias <- res
   
-  cat("\nSizing process complete. Information stored in the environment for posterior functions.\n")
+  cat("\nSizing process complete. Information has been stored in the environment for posterior functions.\nFor example to be used by the overview2() or score.markers() functions.")
   
   correlations <- unlist(lapply(res, function(x){x$corr}))
   if(length(which(correlations < .92)) >0){
@@ -70,10 +73,11 @@ ladder.info.attach <- function(stored, ladder, channel.ladder=NULL, method="iter
     stop("This package requires R 2.1 or later")
   assign(".Fragman.home", file.path(library, pkg),
          pos=match("package:Fragman", search()))
-  Fragman.version = "1.0.7 (2016-09-01)"
+  Fragman.version = "1.0.9 (2018-02-01)"
   assign(".Fragman.version", Fragman.version, pos=match("package:Fragman", search()))
   if(interactive())
   {
+    packageStartupMessage(paste("## ========================================================= ## "),appendLF=TRUE)
     packageStartupMessage(paste("## ========================================================= ## "),appendLF=TRUE)
     packageStartupMessage(paste("# Fragman: An R package for Fragment Analysis ", Fragman.version, ". ",sep=""),appendLF=TRUE)
     packageStartupMessage("# Author: Covarrubias-Pazaran et al.",appendLF=TRUE)
@@ -82,6 +86,8 @@ ladder.info.attach <- function(stored, ladder, channel.ladder=NULL, method="iter
     packageStartupMessage("#    + Council of Science and Technology (CONACYT)", appendLF=TRUE)
     packageStartupMessage("#    + US Department of Agriculture (USDA-ARS)", appendLF=TRUE)
     packageStartupMessage("# Type 'help(Fragman)' for summary information",appendLF=TRUE)
+    packageStartupMessage("# Type 'citation(Fragman)' to know how to cite this package",appendLF=TRUE)
+    packageStartupMessage(paste("## ========================================================= ## "),appendLF=TRUE)
     packageStartupMessage(paste("## ========================================================= ## "),appendLF=TRUE)
   }
   invisible()

@@ -8,7 +8,8 @@ This function reads the FSA files using a function named 'read.abif' from anothe
 \usage{
 storing.inds(folder, channels=NULL, fourier=TRUE, 
             saturated=TRUE, lets.pullup=TRUE, 
-            plotting=FALSE, rawPlot=FALSE)
+            plotting=FALSE, rawPlot=FALSE,
+            llength=3000, ulength=80000)
 }
 
 \arguments{
@@ -25,6 +26,10 @@ storing.inds(folder, channels=NULL, fourier=TRUE,
 \item{plotting}{A FALSE/TRUE value indicating if results after data cleaning steps should be plotted to asses graphically how data was handled. The dafault is FALSE}
 
 \item{rawPlot}{A FALSE/TRUE value indicating if a plot drawing all vectors read should be plotted. The dafault is FALSE since this consumes a lot of memory.}
+
+\item{llength}{A numeric value indicating how small can be the number of indexes in each channel. Default is 3000 indexes for small runs.}
+
+\item{ulength}{A numeric value indicating how big can be the number of indexes in each channel. Default is 80000 indexes for long runs.}
 
 }
 \details{

@@ -3,22 +3,22 @@
 \title{Assesing several plants with an overview}
 
 \description{
-This function uses information from the FSA files read from \code{\link{storing.inds}} function and creates an overlapping plot to assess graphically the peaks of several plants in certain channel in order to create a panel for the scoring functions \code{\link{score.easy}}. The function contains several defaults in most of the arguments, please check arguments but in general you only need the first 4 arguments to create a panel.
+This function uses information from the FSA files read from \code{\link{storing.inds}} function and creates an overlapping plot to assess graphically the peaks of several plants in certain channel in order to create a panel for the scoring functions \code{\link{score.markers}}. The function contains several defaults in most of the arguments, please check arguments but in general you only need the first 4 arguments to create a panel.
 
 }
 \usage{
-overview2(my.inds, cols = 1, ladder, xlim = NULL, ylim = NULL, 
+overview2(my.inds, channel = 1, ladder, xlim = NULL, ylim = NULL, 
         n.inds = NULL, channel.ladder = NULL, ploidy = 2, 
         method="iter2", init.thresh=NULL, ladd.init.thresh=200, 
         lwd=.25, warn=TRUE, min.panel=100, suggested=TRUE, 
-        env = parent.frame(), my.palette=NULL) 
+        env = parent.frame(), my.palette=NULL, verbose=TRUE) 
 
 }
 
 \arguments{
   \item{my.inds}{List with the channels information from the individuals specified, usually coming from the \code{\link{storing.inds}} function output}
 
-\item{cols}{The channel/color you wish to analyze, usually 1 is blue, 2 is green, 3 is yellow, 4 is red and so on}
+\item{channel}{The channel/color you wish to analyze, usually 1 is blue, 2 is green, 3 is yellow, 4 is red and so on}
 
 \item{ladder}{A vector containing the expected weights for the ladder peaks that will be found the using the \code{\link{find.ladder}} function}
 
@@ -50,6 +50,8 @@ overview2(my.inds, cols = 1, ladder, xlim = NULL, ylim = NULL,
 
 \item{my.palette}{A character vector with the colors to be used when drawing the RFU plots. If NULL it will use the programmed palette.}
 
+\item{verbose}{A TRUE/FALSE statement indicating if the function should return informative messages.}
+
 }
 \details{
 No major details.
@@ -77,7 +79,7 @@ Ben Hui Liu. 1998. Statistical Genomics. CRC Press LLC. ISBN 0-8493-3166-8.
 data(my.plants)
 my.plants <- my.plants[1]
 my.ladder <- c(50, 75, 100, 125, 129, 150, 175, 200, 225, 250, 275, 300, 325, 350, 375)
-overview2(my.inds=my.plants, cols = 1, ladder=my.ladder, lwd=1)
+overview2(my.inds=my.plants, channel = 1, ladder=my.ladder, lwd=1)
 # now use:
 # my.panel <- locator(type="p", pch=20, col="red")$x
 # to click over the peaks and get the sizes in base pairs
@@ -87,7 +89,7 @@ overview2(my.inds=my.plants, cols = 1, ladder=my.ladder, lwd=1)
 ## can use the par(new=TRUE) and a for loop
 
 for(u in 1:4){
-  overview2(my.inds=my.plants, cols = u, ladder=my.ladder, lwd=1,
+  overview2(my.inds=my.plants, channel = u, ladder=my.ladder, lwd=1,
             xlim=c(240,350), ylim=c(0,30000))
   par(new=TRUE)
 }

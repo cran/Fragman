@@ -1,4 +1,4 @@
-score.easy <- function (my.inds, cols = 1, n.inds = NULL, panel=NULL, shift=0.8, 
+score.markers <- function (my.inds, channel = 1, n.inds = NULL, panel=NULL, shift=0.8, 
                         ladder, channel.ladder=NULL, ploidy=2, left.cond=c(0.6,3), 
                         right.cond=0.35, warn=FALSE, window=0.5, init.thresh=200, 
                         ladd.init.thresh=200, method="iter2", env = parent.frame(), 
@@ -11,7 +11,7 @@ score.easy <- function (my.inds, cols = 1, n.inds = NULL, panel=NULL, shift=0.8,
       print(paste("Hey! you are trying to examine more individuals than the ones you actually read? You selected in 'n.inds' argument", length(n.inds), "individuals but you only provided", length(my.inds), " individuals. Please select a number of individuals smaller or same size than the ones contained in 'my.inds' argument"))
       stop
     }else{
-      cat(paste("\n1) You have used a shift of", shift, "base pairs. All peaks at that distance from the tallest peak will be ignored and be considered noise. \n2) In addition the window used is", window, ". Which means that all peaks closer by that distance to panel peaks will be accounted as peaks. \n3) Remember using the get.scores() function to extract the results from this output. \n\n"))
+      cat(paste("\n1) You have used a shift of", shift, "base pairs. All peaks at that distance from the tallest peak will be ignored and be considered noise. \n2) In addition the window used is", window, ". Which means that all peaks closer by that distance to panel peaks will be accounted as peaks. \n3) Remember using the get.scores() function to extract the results from this output as a dataframe. \n\n"))
       #print(paste("In addition the window used is", window, ". Which means that all peaks closer by that distance to panel peaks will be accounted as peaks"))
     }
     if(method == "ci"){
@@ -79,7 +79,7 @@ score.easy <- function (my.inds, cols = 1, n.inds = NULL, panel=NULL, shift=0.8,
     # takes a list containing a data frmae and returns the maximum value of the column provided in colo argument
     #  y <- max(l1[-c(1:1500),colo]); return(y)
     #}
-    #maxi <- lapply(my.inds, max.lis, colo=cols)
+    #maxi <- lapply(my.inds, max.lis, colo=channel)
     #pro <- mean(unlist(maxi))
     ######################################################################################################
     ### this part extracts all the models for each single plant in my plants
@@ -98,7 +98,7 @@ score.easy <- function (my.inds, cols = 1, n.inds = NULL, panel=NULL, shift=0.8,
     
     ######################################################################
     #########################################################################
-    xx <- lapply(my.inds2, function(x, cols){1:length(x[,cols])}, cols=cols)
+    xx <- lapply(my.inds2, function(x, channel){1:length(x[,channel])}, channel=channel)
     newxx <- numeric()
     newyy <- numeric()
     new.whole.data <- list(NA)
@@ -109,7 +109,7 @@ score.easy <- function (my.inds, cols = 1, n.inds = NULL, panel=NULL, shift=0.8,
       ###################
       # h1 is used to make sure it matches if nplants is a weird vector
       newxx <- as.vector(predict(list.models[[h1]], newdata=data.frame(x=xx[[h]])))
-      newyy <- my.inds2[[h]][,cols]
+      newyy <- my.inds2[[h]][,channel]
       new.whole.data[[h]] <- list(xx=newxx, yy=newyy)
       ################
       setTxtProgressBar(pb, (count/tot)*.25)### keep filling the progress bar
@@ -128,7 +128,7 @@ score.easy <- function (my.inds, cols = 1, n.inds = NULL, panel=NULL, shift=0.8,
       #maxpeak.in.pani <- max(new.whole.data[[k]][[2]][which(new.whole.data[[k]][[1]] > pani[1] & new.whole.data[[k]][[1]] < pani[2])])
       ## just create newthrsholds for plants who actually have peaks in that panel region
       #if( maxpeak.in.pani > init.thresh){
-      # newtt <- threshs(my.plant=new.whole.data[[k]], min.thre=init.thresh, panel=pani, ci=thresh[[k]][cols])  
+      # newtt <- threshs(my.plant=new.whole.data[[k]], min.thre=init.thresh, panel=pani, ci=thresh[[k]][channel])  
       #}else{newtt <- init.thresh}
       newtt <- init.thresh
       #####################################
@@ -182,8 +182,8 @@ score.easy <- function (my.inds, cols = 1, n.inds = NULL, panel=NULL, shift=0.8,
         }else{mylim=1000}
         
         if(is.infinite(mylim)){mylim=1000}
-        plot( new.whole.data[[g]]$xx, new.whole.data[[g]]$yy, type="l", col=cfp[cols], xaxt="n",
-              xlim=c(xm,xl),  ylim=c(-200,mylim), ylab="Intensity", main=paste(ncfp[cols], "plant", hh4), 
+        plot( new.whole.data[[g]]$xx, new.whole.data[[g]]$yy, type="l", col=cfp[channel], xaxt="n",
+              xlim=c(xm,xl),  ylim=c(-200,mylim), ylab="Intensity", main=paste(ncfp[channel], "plant", hh4), 
               xlab=names(list.models)[hh4], lwd=2, las=2)
         axis(1,at=c(xm:xl), labels=xm:xl, cex.axis=0.8)
         rect(xleft=(list.weis2[[g]]$wei-window),ybottom=(bott-200), xright=(list.weis2[[g]]$wei+window), ytop=(top+1000), col=transp("lightpink",0.3), border=NA)
@@ -211,7 +211,7 @@ score.easy <- function (my.inds, cols = 1, n.inds = NULL, panel=NULL, shift=0.8,
           
           jet.colors <- colorRampPalette(c("#00007F", "blue", "#007FFF", "cyan", "#7FFF7F", "yellow", "#FF7F00", "red"))
           palette <- jet.colors(25)
-          image(forjet2, col=palette, xaxt="n", yaxt="n", main=paste("Electrogram for plants scored in color", cols))
+          image(forjet2, col=palette, xaxt="n", yaxt="n", main=paste("Electrogram for plants scored in color", channel))
           #image(rt, col=palette, xaxt = "n", yaxt = "n", "Electrogram for plants scored")
           #axis(side=3,at=seq(0,1,by=(1/(length(list.jet2)-1))),names(mydata), cex.axis=0.5) #above
           labb <- paste(rep("Plant", (dim(forjet2)[2])), 1:(dim(forjet2)[2]))
@@ -221,5 +221,10 @@ score.easy <- function (my.inds, cols = 1, n.inds = NULL, panel=NULL, shift=0.8,
     }
     close(pb) # close the progress bar
     options(warn = oldw)
+    
+    # dt <- get.scores(list.weis2)
+    # 
+    # list.weis2$DF <- dt
+    
     return(list.weis2)
   }

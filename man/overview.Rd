@@ -7,9 +7,9 @@ This function uses information from the FSA files read from \code{\link{storing.
 
 }
 \usage{
-overview(my.inds, cols = 1, n.inds = c(1:length(my.inds)), 
+overview(my.inds, channel = 1, n.inds = c(1:length(my.inds)), 
         xlimi=c(min(ladder),max(ladder)), ladder, channel.ladder=dim(my.inds[[1]])[2], 
-        ploidy=2, ci.upp=1.96, ci.low=1.96, dev=50, method="iter", 
+        ploidy=2, dev=50, method="iter", 
         init.thresh=200, ladd.init.thresh=200, warn=TRUE, my.palette=NULL,
         env = parent.frame())
 }
@@ -17,7 +17,7 @@ overview(my.inds, cols = 1, n.inds = c(1:length(my.inds)),
 \arguments{
   \item{my.inds}{List with the channels information from the individuals specified, usually coming from the \code{\link{storing.inds}} function output}
 
-\item{cols}{The channel you wish to analyze, usually 1 is blue, 2 is green, 3 is yellow, 4 is red and so on}
+\item{channel}{The channel you wish to analyze, usually 1 is blue, 2 is green, 3 is yellow, 4 is red and so on}
 
 \item{n.inds}{Vector specifying the plants to be scored}
 
@@ -28,10 +28,6 @@ overview(my.inds, cols = 1, n.inds = c(1:length(my.inds)),
 \item{channel.ladder}{A scalar value indicating in which channel or color the ladder was read}
 
 \item{ploidy}{A scalar value indicating the ploidy of the organism to be scored}
-
-\item{ci.upp}{A scalar value indicating how many standar errors will be used to detect peaks when checking the height of the ladder peaks(upper bound). To be used in the \code{\link{find.ladder}} function}
-
-\item{ci.low}{A scalar value indicating how many standar errors will be used to detect peaks when checking the height of the ladder peaks(lower bound). To be used in the \code{\link{find.ladder}} function}
 
 \item{dev}{A scalar value indicating the number of indexes to be used as peak separation when deciding the ladder peaks, for more details check \code{\link{find.ladder}} function}
 
@@ -70,7 +66,7 @@ Ben Hui Liu. 1998. Statistical Genomics. CRC Press LLC. ISBN 0-8493-3166-8.
 data(my.plants)
 my.plants <- my.plants[1:10]
 my.ladder <- c(50, 75, 100, 125, 129, 150, 175, 200, 225, 250, 275, 300, 325, 350, 375)
-overview(my.inds=my.plants, cols = 1, n.inds = c(1:5), ladder=my.ladder, xlim=c(200,220))
+overview(my.inds=my.plants, channel = 1, n.inds = c(1:5), ladder=my.ladder, xlim=c(200,220))
 # now use:
 # locator(type="p", pch=20, col="red")$x
 # to click over the peaks and get the sizes in base pairs
