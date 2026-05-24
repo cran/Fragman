@@ -1,12 +1,18 @@
-citHeader("To cite the Fragman package in publications use:")
-
-citEntry(entry="Article",
-	title="Fragman: An R package for fragment analysis",
-	author=as.person("Covarrubias-Pazaran G, Diaz-Garcia L, Schlautman B, Salazar W, Zalapa J"),
-	journal="BMC Genetics",
+bibentry(
+   bibtype = "Article",
+   title = "Fragman: An R package for fragment analysis.",
+   author = c(person(given = "Giovanny", family = "Covarrubias-Pazaran"),
+   person(given ="Luis", family ="Diaz-Garcia"),
+  person(given ="Brandon", family ="Schlautman"),
+  person(given ="Walter", family ="Salazar"),
+  person(given ="Juan", family ="Zalapa")
+   ),
+   journal="BMC Genetics",
 	year=2016,
 	volume="17(62)",
 	pages="1-8",
-textVersion=paste("Covarrubias-Pazaran G, Diaz-Garcia L, Schlautman B, Salazar W, Zalapa J. (2015) Fragman: An R package for fragment analysis. BMC Genetics 17(62):1-8",
+	header       = "To cite Fragman in publications use:",
+	textVersion  =
+  paste("Covarrubias-Pazaran G, Diaz-Garcia L, Schlautman B, Salazar W, Zalapa J. (2015) Fragman: An R package for fragment analysis. BMC Genetics 17(62):1-8",
 " URL http://bmcgenet.biomedcentral.com/articles/10.1186/s12863-016-0365-6")
-)
+     )

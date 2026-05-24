@@ -4,6 +4,12 @@ ladder.info.attach <- function(stored, ladder,
                                prog=TRUE, draw=TRUE, attempt=10){
   all.names <- names(stored)
   
+  ## make sure you did not read channels with missing info
+  good <- apply(stored[[1]],2, function(x){length(which(is.na(x)))/length(x)})
+  keep <- which(good ==0)
+  stored <- lapply(stored, function(x){x[,keep]})
+  ##
+  
   dev=50; warn= FALSE
   if(is.null(channel.ladder)){
     channel.ladder <- dim(stored[[1]])[2]
@@ -62,34 +68,4 @@ ladder.info.attach <- function(stored, ladder,
 }
 
 
-
-##################################################################################################
-#Startup function
-#this function is executed once the library is loaded
-.onAttach = function(library, pkg)
-{
-  Rv = R.Version()
-  if(!exists("getRversion", baseenv()) || (getRversion() < "2.1"))
-    stop("This package requires R 2.1 or later")
-  assign(".Fragman.home", file.path(library, pkg),
-         pos=match("package:Fragman", search()))
-  Fragman.version = "1.0.9 (2018-02-01)"
-  assign(".Fragman.version", Fragman.version, pos=match("package:Fragman", search()))
-  if(interactive())
-  {
-    packageStartupMessage(paste("## ========================================================= ## "),appendLF=TRUE)
-    packageStartupMessage(paste("## ========================================================= ## "),appendLF=TRUE)
-    packageStartupMessage(paste("# Fragman: An R package for Fragment Analysis ", Fragman.version, ". ",sep=""),appendLF=TRUE)
-    packageStartupMessage("# Author: Covarrubias-Pazaran et al.",appendLF=TRUE)
-    packageStartupMessage("# Published: BMC Genetics 17(62):1-8",appendLF=TRUE)
-    packageStartupMessage("# Supported and partially funded by:", appendLF=TRUE)
-    packageStartupMessage("#    + Council of Science and Technology (CONACYT)", appendLF=TRUE)
-    packageStartupMessage("#    + US Department of Agriculture (USDA-ARS)", appendLF=TRUE)
-    packageStartupMessage("# Type 'help(Fragman)' for summary information",appendLF=TRUE)
-    packageStartupMessage("# Type 'citation(Fragman)' to know how to cite this package",appendLF=TRUE)
-    packageStartupMessage(paste("## ========================================================= ## "),appendLF=TRUE)
-    packageStartupMessage(paste("## ========================================================= ## "),appendLF=TRUE)
-  }
-  invisible()
-}
 

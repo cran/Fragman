@@ -3,6 +3,7 @@ read.abif <- function(filename, max.bytes.in.file = file.info(filename)$size,
   #
   # Suppress warnings when reading strings with internal nul character:
   #
+  #print("oh yes")
   RTC <- function(x, ...) suppressWarnings(rawToChar(x, ...))
   #
   # Define some shortcuts:

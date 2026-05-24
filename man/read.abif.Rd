@@ -29,7 +29,6 @@ columns describing various low-level information about the elements.
 Covarrubias-Pazaran G, Diaz-Garcia L, Schlautman B, Salazar W, Zalapa J. Fragman: An R package for fragment analysis. 2016. BMC Genetics 17(62):1-8.
 
 Anonymous (2006) Applied Biosystem Genetic Analysis Data File Format.
-Available at \url{http://www.appliedbiosystems.com/support/software_community/ABIF_File_Format.pdf}.
 Last visited on 03-NOV-2008.
 
 The figure in the example section is an attempt to reproduce figure 1A from:

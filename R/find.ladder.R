@@ -18,7 +18,7 @@ find.ladder <-function(x, ladder, draw=TRUE, dev=50, warn=TRUE, init.thresh=NULL
   }
   
   if(is.null(init.thresh)){
-    if(mean(x) > 1000){
+    if(mean(x, na.rm = TRUE) >= 1000){
       #hohoho2 <- big.peaks.col(x[1:length(x)], 2*median(hohoho$hei))
       init.thresh <- quantile(hohoho$hei,.95)
     }else{

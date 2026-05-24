@@ -1,15 +1,27 @@
 Package: Fragman
-Type: Package
+Version: 1.1.0
+Date: 2026-05-20
 Title: Fragment Analysis in R
-Version: 1.0.9
-Date: 2018-02-01
-Author: Giovanny Covarrubias-Pazaran, Luis Diaz-Garcia, Brandon Schlautman, Walter Salazar, Juan Zalapa.
-Maintainer: Giovanny Covarrubias-Pazaran <covarrubiasp@wisc.edu>
+Authors@R: c(
+    person("Giovanny","Covarrubias-Pazaran", email="cova_ruber@live.com.mx", role=c("aut","cre"),
+	comment=c(ORCID="0000-0002-7194-3837")),
+	person("Luis", "Diaz-Garcia", role = "aut"),
+  person("Brandon", "Schlautman", role = "aut"),
+  person("Walter", "Salazar", role = "aut"),
+  person("Juan", "Zalapa", role = "aut")
+	)
+Maintainer: Giovanny Covarrubias-Pazaran <cova_ruber@live.com.mx>
 Description: Performs fragment analysis using genetic data coming from capillary electrophoresis machines. These are files with FSA extension which stands for FASTA-type file, and .txt files from Beckman CEQ 8000 system, both contain DNA fragment intensities read by machinery. In addition to visualization, it performs automatic scoring of SSRs (Sample Sequence Repeats; a type of genetic marker very common across the genome) and other type of PCR markers (standing for Polymerase Chain Reaction) in biparental populations such as F1, F2, BC (backcross), and diversity panels (collection of genetic diversity).
-License: GPL-3
-URL: http://www.wisc.edu
-Packaged: 2018-01-13 14:19:14 UTC; cova_ruber
+Depends: R(>= 2.10)
+LazyData: true
+License: GPL (>= 2)
 NeedsCompilation: no
+Packaged: 2026-05-24 02:15:32 UTC; giovannycovarrubias
+Author: Giovanny Covarrubias-Pazaran [aut, cre] (ORCID:
+    <https://orcid.org/0000-0002-7194-3837>),
+  Luis Diaz-Garcia [aut],
+  Brandon Schlautman [aut],
+  Walter Salazar [aut],
+  Juan Zalapa [aut]
 Repository: CRAN
-Date/Publication: 2018-01-14 13:00:52 UTC
-Depends: R (>= 2.10)
+Date/Publication: 2026-05-24 16:10:08 UTC

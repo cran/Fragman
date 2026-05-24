@@ -43,6 +43,7 @@ storing.inds <-
         count <- count + 1
         ###################
         fsaFile<-read.abif(listp2[i]) # file read
+        
         lens <- lapply(fsaFile$Data, length)
         aaa <- table(unlist(lens)) # length of vectors in data
         #### CONDITION IF CHANNELS WAS NOT SPECIFIED
@@ -66,7 +67,7 @@ storing.inds <-
           cfound <- channels
         }
         #################
-        
+        #print("go")
         real.len <- as.numeric(names(aaa)[which(aaa == channels & as.numeric(names(aaa)) > llength & as.numeric(names(aaa)) < ulength )]) # length of the data elements that meet the requirement to be a data file
         v <- as.vector(which(unlist(lens) == real.len)) # length to find, elements storing the data found
         reads<-list(NA) # to store info
@@ -109,7 +110,7 @@ storing.inds <-
       }
       #attributes(all.inds.mats[[i]]) <- list(FSA=FALSE)
     }
-    
+    #print("go")
     close(pb) # close the progress bar
     if(fourier == TRUE){ #FOURIER
       print("Applying Fourier tranformation for smoothing...")
